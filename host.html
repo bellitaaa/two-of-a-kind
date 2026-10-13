@@ -1,0 +1,245 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#3B0C13">
+<meta name="robots" content="noindex, nofollow">
+<title>Host dashboard</title>
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,500;1,400;1,500&family=Poppins:wght@300;400;500&display=swap">
+<link rel="stylesheet" href="host.css?v=0134e0eb">
+</head>
+<body>
+<!-- sign in -->
+<section class="login" data-login hidden>
+  <form class="login-card" data-login-form>
+    <p class="kicker">Host dashboard</p>
+    <h1>Welcome back</h1>
+    <label class="f"><span>Password</span><input type="password" name="password" autocomplete="current-password" required></label>
+    <p class="msg msg--err" data-login-err hidden></p>
+    <button class="b b--primary b--block" type="submit">Sign in</button>
+  </form>
+</section>
+
+<!-- app -->
+<div class="app" data-app hidden>
+  <header class="top">
+    <div>
+      <p class="kicker" data-h-date></p>
+      <h1 data-h-name>Your gathering</h1>
+    </div>
+    <div class="top-actions">
+      <a class="b b--ghost b--sm" href="./" target="_blank" rel="noopener">View &amp; edit ↗</a>
+      <button class="b b--ghost b--sm" type="button" data-logout>Sign out</button>
+    </div>
+  </header>
+
+  <nav class="tabs" role="tablist">
+    <button role="tab" data-tab="overview" aria-selected="true">Overview</button>
+    <button role="tab" data-tab="guests">Guests</button>
+    <button role="tab" data-tab="invite">Invites</button>
+    <button role="tab" data-tab="event">Event</button>
+  </nav>
+
+  <main class="wrap">
+    <!-- OVERVIEW -->
+    <section data-panel="overview">
+      <div class="banner" data-missing hidden></div>
+      <div class="stats" data-stats></div>
+      <div class="grid2">
+        <article class="card">
+          <h2>Games coming 🎲</h2>
+          <ul class="list" data-games></ul>
+        </article>
+        <article class="card">
+          <h2>Latest responses</h2>
+          <ul class="list" data-activity></ul>
+        </article>
+      </div>
+      <article class="card notify-card" id="notify">
+        <h2>Get notified when someone RSVPs</h2>
+        <p class="hint">Every reply (and every change) lands in your Google Sheet and sends you an email straight away. All free.</p>
+
+        <div class="channel">
+          <div class="ch-head"><span class="ch-ico" aria-hidden="true">📋</span><div><h3>Your Google Sheet</h3><p class="hint">The <b>Responses</b> tab gets a new row for each reply. The <b>Guests</b> tab is the full guest list.</p></div><span class="ch-state"><span class="pill pill--attending">On</span></span></div>
+          <div class="row"><a class="b b--primary b--sm" data-open-sheet target="_blank" rel="noopener">Open my sheet ↗</a></div>
+        </div>
+
+        <div class="channel">
+          <div class="ch-head"><span class="ch-ico" aria-hidden="true">✉️</span><div><h3>Email</h3><p class="hint" data-email-to></p></div><span class="ch-state" data-ch-state="email"></span></div>
+          <div class="row"><button class="b b--primary b--sm" type="button" data-test="email">Send a test email</button><button class="b b--ghost b--sm" type="button" data-email-toggle></button></div>
+          <p class="hint hint--sm">To send them to a different address, change it in <b>Event → Notifications</b>.</p>
+        </div>
+
+        <div class="channel">
+          <div class="ch-head"><span class="ch-ico" aria-hidden="true">📱</span><div><h3>Phone pop-ups (optional)</h3><p class="hint">Also free, using the ntfy app. Handy if you don’t check email often.</p></div><span class="ch-state" data-ch-state="push"></span></div>
+          <div data-push-off>
+            <ol class="steps">
+              <li>Install the free <b>ntfy</b> app (App Store or Google Play).</li>
+              <li>Tap <b>Turn on</b> below. You’ll get a private channel name.</li>
+              <li>In the ntfy app tap <b>+</b>, paste the channel name and subscribe.</li>
+            </ol>
+            <button class="b b--ghost b--sm" type="button" data-push-on>Turn on</button>
+          </div>
+          <div data-push-on-panel hidden>
+            <p class="hint">Subscribe to this channel name in the ntfy app (keep it private):</p>
+            <div class="copyrow"><input readonly data-push-topic aria-label="Notification channel name"><button class="b b--ghost b--sm" type="button" data-copy-topic>Copy</button></div>
+            <div class="row"><button class="b b--primary b--sm" type="button" data-test="push">Send a test</button><button class="b b--ghost b--sm" type="button" data-push-off-btn>Turn off</button></div>
+          </div>
+        </div>
+        <div data-notify-errors></div>
+      </article>
+    </section>
+
+    <!-- GUESTS -->
+    <section data-panel="guests" hidden>
+      <div class="toolbar">
+        <input class="search" type="search" placeholder="Search guests" data-search aria-label="Search guests">
+        <button class="b b--primary b--sm" type="button" data-open-add>+ Add guests</button>
+      </div>
+      <div class="filters" data-filters>
+        <button data-filter="all" aria-pressed="true">All</button>
+        <button data-filter="attending" aria-pressed="false">Confirmed</button>
+        <button data-filter="pending" aria-pressed="false">Pending</button>
+        <button data-filter="declined" aria-pressed="false">Declined</button>
+      </div>
+      <div class="add card" data-add hidden>
+        <h2>Add guests</h2>
+        <p class="hint">One guest per line: <code>Name, phone or email, max party size</code>. Only the name is required.</p>
+        <textarea rows="5" data-add-text placeholder="Sarah Nakato, +256 772 123456, 2&#10;Daniel Okello, daniel@example.com&#10;Grace"></textarea>
+        <p class="msg msg--err" data-add-err hidden></p>
+        <div class="row-end"><button class="b b--ghost b--sm" type="button" data-cancel-add>Cancel</button><button class="b b--primary b--sm" type="button" data-save-add>Add to list</button></div>
+      </div>
+      <ul class="guests" data-guests></ul>
+      <p class="empty" data-guests-empty hidden>No replies yet. Share your invitation link (Invites tab) and everyone who replies will appear here.</p>
+      <div class="row-end"><a class="b b--ghost b--sm" href="#" data-export>Export CSV</a> <a class="b b--ghost b--sm" data-open-sheet target="_blank" rel="noopener">Open my Google Sheet ↗</a></div>
+    </section>
+
+    <!-- INVITES -->
+    <section data-panel="invite" hidden>
+      <article class="card card--feature">
+        <h2>Your invitation link</h2>
+        <p class="hint">Send this one link to everyone, in a group chat or one by one. Each person who replies gets their own guest pass and a private link to check details or change their RSVP later. Their reply appears in <b>Guests</b> and you get notified.</p>
+        <div class="copyrow"><input readonly data-open-link aria-label="Invitation link"><button class="b b--ghost b--sm" type="button" data-copy="open">Copy</button></div>
+        <div class="row"><a class="b b--primary b--sm" data-share-wa target="_blank" rel="noopener">Share on WhatsApp</a></div>
+        <p class="hint hint--sm">The exact address stays hidden until someone confirms. Each phone number or email can only reply once, so the same person can’t RSVP twice.</p>
+        <div class="settings-mini">
+          <label class="switch"><input type="checkbox" data-s="openInvite"><span></span>Allow RSVPs through the general link</label>
+          <label class="f f--inline"><span>Guests per general RSVP</span><input type="number" min="1" max="10" data-s="openMaxParty" inputmode="numeric"></label>
+          <label class="f f--inline"><span>Headcount limit (0 = none)</span><input type="number" min="0" max="1000" data-s="capacity" inputmode="numeric"></label>
+          <button class="b b--primary b--sm" type="button" data-save-mini>Save</button>
+        </div>
+      </article>
+      <article class="card">
+        <h2>Optional: personal links</h2>
+        <p class="hint">Want a few people to get a link that greets them by name before they reply? Add them in <b>Guests</b> and send their own link. You don’t need this if you’re sending the one link to everyone.</p>
+      </article>
+      <article class="card">
+        <h2>Nudge pending guests</h2>
+        <p class="hint">Only for guests you added in <b>Guests</b> who haven’t replied. Email reminders are sent from your Gmail to those with an email address (once a day at most). For phone numbers, tap WhatsApp to send a ready-written note.</p>
+        <button class="b b--primary b--sm" type="button" data-remind>Email reminders</button>
+        <p class="msg" data-remind-msg hidden></p>
+        <ul class="list nudge" data-nudge></ul>
+      </article>
+    </section>
+
+    <!-- EVENT -->
+    <section data-panel="event" hidden>
+      <form class="card form" data-event-form novalidate>
+        <h2>The basics</h2>
+        <label class="f"><span>Event name</span><input data-s="eventName" maxlength="80" placeholder="e.g. Two of a Kind"></label>
+        <label class="f"><span>Birthday girls’ names</span><input data-s="celebrants" maxlength="100" placeholder="e.g. Amara &amp; Ayana"></label>
+        <label class="f"><span>Hosted by (signs the invitation)</span><input data-s="hostName" maxlength="60"></label>
+        <label class="f"><span>Tagline</span><input data-s="tagline" maxlength="120"></label>
+        <div class="f-row">
+          <label class="f"><span>Date</span><input type="date" data-s="date"></label>
+          <label class="f"><span>Start time</span><input type="time" data-s="time"></label>
+        </div>
+        <div class="f-row">
+          <label class="f"><span>End time (blank = “till late”)</span><input type="time" data-s="endTime"></label>
+          <label class="f"><span>RSVP deadline</span><input type="date" data-s="rsvpDeadline"></label>
+        </div>
+        <label class="f"><span>Time zone</span><input data-s="timezone" list="tz-list" autocomplete="off"></label>
+        <datalist id="tz-list"></datalist>
+        <label class="switch"><input type="checkbox" data-s="allowLate"><span></span>Keep accepting RSVPs after the deadline</label>
+
+        <h2>Where</h2>
+        <label class="f"><span>Venue</span><input data-s="venue" maxlength="60"></label>
+        <label class="f"><span>General area (shown to everyone)</span><input data-s="area" maxlength="120" placeholder="Neighbourhood, city"></label>
+        <label class="f"><span>Full Airbnb address</span><textarea data-s="address" rows="2" maxlength="300"></textarea></label>
+        <label class="f"><span>Google Maps link (optional)</span><input type="url" data-s="mapsUrl" placeholder="https://maps.app.goo.gl/…"></label>
+        <label class="switch"><input type="checkbox" data-s="hideAddress"><span></span>Only show the full address to confirmed guests</label>
+        <label class="f f--inline"><span>Default guests per personal invite</span><input type="number" min="1" max="10" data-s="defaultMaxParty" inputmode="numeric"></label>
+
+        <h2>Notifications</h2>
+        <label class="f"><span>Send RSVP emails to (blank = your Google account)</span><input type="email" data-s="notifyEmail" placeholder="you@gmail.com"></label>
+        <label class="switch"><input type="checkbox" data-s="notifyOnRsvp"><span></span>Email me when someone RSVPs</label>
+
+        <div class="savebar"><p class="msg" data-save-msg hidden></p><button class="b b--primary" type="submit">Save changes</button></div>
+      </form>
+
+      <article class="card">
+        <h2>Polaroid photos</h2>
+        <p class="hint"><b>Easiest:</b> open the invitation (<a href="./" target="_blank" rel="noopener">View &amp; edit ↗</a>) while signed in here and tap <b>Edit</b>. You can change photos, captions, the notes on the back of each photo and all the card wording right on the page.</p>
+        <p class="hint">The four Polaroids on the invitation. Swap the illustrations for your own photos (flowers, the Airbnb, drinks, candles). Captions are handwritten on the frame. Photos are resized on your phone before upload so the invitation stays fast.</p>
+        <ul class="mood" data-mood></ul>
+        <div class="row-end"><button class="b b--primary b--sm" type="button" data-save-mood>Save photos</button></div>
+      </article>
+
+      <article class="card" hidden>
+        <h2>Link preview artwork</h2>
+        <p class="hint">The picture WhatsApp shows when you share a link (cropped to 1200×630). WhatsApp caches previews, so changes can take a while to appear on links already sent.</p>
+        <div class="art-row"><img data-art-preview alt="Current preview artwork"><div class="art-actions">
+          <label class="b b--ghost b--sm file-b">Upload image<input type="file" accept="image/*" data-art-file></label>
+          <button class="b b--ghost b--sm" type="button" data-art-reset>Use default</button></div></div>
+      </article>
+
+      <article class="card">
+        <h2>Background music</h2>
+        <p class="hint">Optional. Plays softly when a guest opens the envelope, with a pause button. Paste a direct link to an MP3 file (it must start with https:// and end in .mp3). Only use music you have the rights to share.</p>
+        <p class="hint" data-music-now></p>
+        <label class="f"><span>Link to an MP3</span><input type="url" data-music-url placeholder="https://…/song.mp3" autocomplete="off"></label>
+        <div class="row">
+          <label class="b b--ghost b--sm file-b" hidden>Upload track<input type="file" data-music-file></label>
+          <button class="b b--primary b--sm" type="button" data-music-save>Save</button>
+          <button class="b b--ghost b--sm" type="button" data-music-clear>Remove</button>
+        </div>
+      </article>
+    </section>
+  </main>
+</div>
+
+<!-- edit guest -->
+<div class="modal" data-edit hidden>
+  <form class="modal-card" data-edit-form>
+    <button class="x" type="button" data-close-edit aria-label="Close">×</button>
+    <h2>Edit guest</h2>
+    <label class="f"><span>Name</span><input name="name" maxlength="80" required></label>
+    <label class="f"><span>Phone or email</span><input name="contact" maxlength="120"></label>
+    <div class="f-row">
+      <label class="f"><span>Max party</span><input name="maxParty" type="number" min="1" max="10" inputmode="numeric"></label>
+      <label class="f"><span>Status</span><select name="status"><option value="pending">Pending</option><option value="attending">Confirmed</option><option value="declined">Declined</option></select></label>
+    </div>
+    <label class="f" data-edit-party><span>Party size (if confirmed)</span><input name="partySize" type="number" min="1" max="10" inputmode="numeric"></label>
+    <label class="f"><span>Private note</span><input name="note" maxlength="200" placeholder="Only you see this"></label>
+    <p class="msg msg--err" data-edit-err hidden></p>
+    <div class="modal-actions">
+      <button class="b b--danger b--sm" type="button" data-delete>Remove guest</button>
+      <button class="b b--ghost b--sm" type="button" data-newlink>New link</button>
+      <button class="b b--primary b--sm" type="submit">Save</button>
+    </div>
+  </form>
+</div>
+
+<div class="toast" data-toast role="status" aria-live="polite"></div>
+<div id="sprite"></div>
+<script src="config.js?v=0134e0eb" defer></script>
+<script src="event.js?v=0134e0eb" defer></script>
+<script src="host-api.js?v=0134e0eb" defer></script>
+<script src="art.js?v=0134e0eb" defer></script>
+<script src="host.js?v=0134e0eb" defer></script>
+</body>
+</html>

@@ -1,0 +1,335 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#FAF6EF">
+<meta name="robots" content="noindex, nofollow">
+<meta name="format-detection" content="telephone=no">
+<title>You’re invited 💌</title>
+<meta name="description" content="Two of a Kind · A Birthday Celebration · Tap to open your invitation.">
+<meta property="og:type" content="website">
+<meta property="og:title" content="You’re invited 💌">
+<meta property="og:description" content="Two of a Kind · A Birthday Celebration · Tap to open your invitation.">
+<!-- OPTIONAL: for the envelope picture in WhatsApp previews, replace YOUR-GITHUB-NAME below with your GitHub username. -->
+<meta property="og:image" content="https://YOUR-GITHUB-NAME.github.io/two-of-a-kind/og-default.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Pinyon+Script&family=Poppins:wght@300;400;500&display=swap">
+<link rel="stylesheet" href="app.css?v=0134e0eb">
+</head>
+<body class="is-sealed is-loading">
+
+<!-- ================================================= the envelope -->
+<section class="opening" data-opening aria-label="Your invitation envelope">
+  <div class="env-wrap">
+    <div class="env" data-env>
+      <div class="env-back" aria-hidden="true">
+        <div class="env-card">
+          <span class="ec-kicker">Please join us to celebrate</span>
+          <span class="ec-script" data-slot="ec-title"></span>
+        </div>
+        <svg class="env-pocket" viewBox="0 0 160 100" preserveAspectRatio="none">
+          <path d="M0 0L80 58L160 0V100H0Z" fill="#6B1824"/>
+          <path d="M0 100L80 50L160 100Z" fill="#7A1F2B"/>
+          <path d="M0 0L80 58L160 0M0 100L80 50L160 100" fill="none" stroke="#3B0C13" stroke-opacity=".35" stroke-width=".6"/>
+        </svg>
+        <div class="env-flap"><svg viewBox="0 0 160 64" preserveAspectRatio="none"><path d="M0 0H160L80 64Z" fill="#82222F"/><path d="M0 0L80 64L160 0" fill="none" stroke="#3B0C13" stroke-opacity=".3" stroke-width=".6"/></svg></div>
+        <span class="env-seal" data-art="seal"></span>
+      </div>
+      <div class="env-front">
+        <span class="stamp st-1" data-art="stamp-rose"></span>
+        <span class="stamp st-2" data-art="stamp-heart"></span>
+        <p class="env-script" data-slot="env-script">you are invited</p>
+        <p class="env-date" data-slot="env-date"></p>
+        <p class="env-to" data-slot="env-to"></p>
+      </div>
+    </div>
+    <span class="op-cherries" data-art="cherries" aria-hidden="true"></span>
+  </div>
+  <button class="op-open" type="button" data-open>Open envelope</button>
+  <p class="op-note" data-op-note hidden></p>
+</section>
+
+<!-- ================================================= the stationery -->
+<main class="canvas" data-canvas aria-label="Invitation">
+
+  <div class="hero">
+    <div class="collage">
+      <div class="liner" aria-hidden="true"></div>
+      <button class="deco two-card" type="button" data-px="18" data-two aria-label="Flip the two of hearts">
+        <span class="tc-inner"><span class="tc-face tc-front" data-art="two"></span><span class="tc-face tc-back" data-art="cardback"></span></span>
+      </button>
+      <span class="deco spark-a" data-px="-14" data-art="sparkles"></span>
+      <figure class="polaroid pol-a" data-polaroid="0"></figure>
+      <figure class="polaroid pol-b" data-polaroid="1"></figure>
+      <div class="amp editable" data-amp data-edit="amp" role="img" aria-label="and"><span class="amp-ch" data-amp-ch data-px="-10">&amp;</span><span class="amp-handle" aria-hidden="true"></span></div>
+      <p class="liner-script editable" data-edit="liner" data-text="linerScript"></p>
+    </div>
+    <div class="card-row">
+      <figure class="polaroid pol-c" data-polaroid="2"></figure>
+      <article class="invite-card editable" data-edit="card">
+        <button class="kiss kiss-a" type="button" data-kiss aria-label="Send a kiss"><span data-art="kiss"></span></button>
+        <p class="ic-kicker" data-text="kicker"></p>
+        <h1 class="ic-title" data-slot="title"></h1>
+        <p class="ic-tag" data-slot="tagline"></p>
+        <span class="ic-rule" aria-hidden="true"></span>
+        <p class="ic-names" data-slot="names"></p>
+        <p class="ic-date" data-slot="ldate"></p>
+        <button class="kiss kiss-b" type="button" data-kiss aria-label="Send a kiss"><span data-art="kiss"></span></button>
+      </article>
+      <p class="tape editable" data-edit="tape" data-slot="tape"></p>
+    </div>
+  </div>
+
+  <div class="details">
+    <article class="details-card land editable" data-land="rise" data-edit="details">
+      <h2 class="dc-title"><span class="dc-the">The</span><span class="dc-script">Details</span></h2>
+      <dl class="dc-list">
+        <div><dt>Date</dt><dd data-slot="d-date"></dd></div>
+        <div><dt>Time</dt><dd data-slot="d-time"></dd></div>
+        <div><dt>Venue</dt><dd data-slot="d-venue"></dd></div>
+        <div><dt>Location</dt><dd data-slot="d-location"></dd></div>
+        <div><dt>RSVP by</dt><dd data-slot="d-deadline"></dd></div>
+      </dl>
+      <span class="dc-candles" data-art="candles" aria-hidden="true"></span>
+    </article>
+
+    <button class="mini mini-byob land editable" type="button" data-land="stamp" data-flip data-edit="byob" aria-label="Contribution card, tap to turn over">
+      <span class="flip">
+        <span class="face front">
+          <svg class="mini-ico" viewBox="0 0 44 32" aria-hidden="true"><rect x="2" y="3" width="40" height="27" rx="2" fill="none" stroke="#3B0C13" stroke-width="1.6"/><path d="M3 4L22 18L41 4" fill="none" stroke="#3B0C13" stroke-width="1.6" stroke-linejoin="round"/><path d="M22 27C17 23.5 15.5 21 17 19.2C18.4 17.6 20.6 18.2 22 20C23.4 18.2 25.6 17.6 27 19.2C28.5 21 27 23.5 22 27Z" fill="#8C2B35"/></svg>
+          <span class="m-title" data-text="byobTitle"></span>
+          <span class="m-text" data-text="byobText"></span>
+        </span>
+        <span class="face back"><span class="m-back" data-text="byobBack"></span></span>
+      </span>
+    </button>
+
+    <button class="mini mini-games land editable" type="button" data-land="right" data-flip data-edit="games" aria-label="Games card, tap to turn over">
+      <span class="flip">
+        <span class="face front">
+          <svg class="mini-ico" viewBox="0 0 60 44" aria-hidden="true"><g class="die-a" transform="rotate(-12 18 24)"><rect x="4" y="10" width="26" height="26" rx="6" fill="#FFF9EE" stroke="#3B0C13" stroke-width="1.4"/><circle cx="11" cy="17" r="2.2" fill="#3B0C13"/><circle cx="17" cy="23" r="2.2" fill="#3B0C13"/><circle cx="23" cy="29" r="2.2" fill="#3B0C13"/></g><g class="die-b" transform="rotate(10 44 22)"><rect x="31" y="8" width="24" height="24" rx="6" fill="#3B0C13"/><circle cx="38" cy="15" r="2.1" fill="#F5E3B5"/><circle cx="48" cy="25" r="2.1" fill="#F5E3B5"/></g></svg>
+          <span class="m-title" data-text="gamesTitle"></span>
+          <span class="m-text" data-text="gamesText"></span>
+        </span>
+        <span class="face back"><span class="m-back" data-text="gamesBack"></span></span>
+      </span>
+    </button>
+
+    <button class="mini mini-comfy land editable" type="button" data-land="left" data-flip data-edit="comfy" aria-label="Dress code card, tap to turn over">
+      <span class="flip">
+        <span class="face front">
+          <span class="m-title" data-text="comfyTitle"></span>
+          <span class="m-text" data-text="comfyText"></span>
+          <svg class="mini-ico" viewBox="0 0 60 40" aria-hidden="true"><path d="M4 30Q30 22 56 10" fill="none" stroke="#636B2F" stroke-width="1.4"/><g fill="#636B2F"><path d="M16 27C12 20 14 14 20 12C21 18 20 23 16 27Z"/><path d="M28 23C26 16 29 10 35 9C35 15 33 20 28 23Z"/><path d="M40 18C39 12 42 7 48 6C47 11 45 16 40 18Z"/></g><g fill="#8E9650"><path d="M18 27C24 31 30 30 33 26C27 24 22 24 18 27Z"/><path d="M31 22C37 25 42 23 44 19C39 18 34 18 31 22Z"/></g></svg>
+        </span>
+        <span class="face back"><span class="m-back" data-text="comfyBack"></span></span>
+      </span>
+    </button>
+  </div>
+
+  <div class="reply">
+    <figure class="polaroid pol-d land" data-land="drop" data-polaroid="3"></figure>
+    <button class="rsvp-card land" type="button" data-land="rise" data-rsvp-card>
+      <span class="rc-cherries" data-art="cherries" aria-hidden="true"></span>
+      <span class="rc-spark" data-art="sparkles" aria-hidden="true"></span>
+      <span class="rc-top" data-rc="top">Kindly</span>
+      <span class="rc-script" data-rc="script">Rsvp</span>
+      <span class="rc-bottom" data-rc="bottom">here</span>
+      <span class="rc-note" data-rc="note"></span>
+    </button>
+    <div class="kisses land" data-land="stamp">
+      <button class="kiss kiss-c" type="button" data-kiss aria-label="Send a kiss"><span data-art="kiss-dark"></span></button>
+      <button class="kiss kiss-d" type="button" data-kiss aria-label="Send a kiss"><span data-art="kiss"></span></button>
+    </div>
+    <p class="signoff land editable" data-land="rise" data-edit="signoff" data-slot="signoff"></p>
+  </div>
+</main>
+
+<!-- host editing -->
+<button class="edit-toggle" type="button" data-edit-toggle hidden>✎ Edit</button>
+<div class="edit-bar" data-edit-bar hidden>
+  <span>Editing · tap anything marked ✎</span>
+  <button type="button" data-edit-done>Done</button>
+</div>
+<div class="sheet" data-editor hidden>
+  <form class="sheet-card editor" role="dialog" aria-modal="true" aria-labelledby="editor-title" data-editor-form novalidate>
+    <span class="sheet-handle" aria-hidden="true"></span>
+    <button class="sheet-x" type="button" data-close-editor aria-label="Close">×</button>
+    <p class="sh-kicker">Edit</p>
+    <h2 class="sh-title sh-title--sm" id="editor-title" data-editor-title></h2>
+    <div class="ed-photo" data-ed-photo hidden>
+      <div class="ed-thumb" data-ed-thumb></div>
+      <div class="ed-photo-actions">
+        <label class="btn btn--wine btn--sm ed-file">Choose photo<input type="file" accept="image/*" data-ed-file></label>
+        <button class="btn btn--line btn--sm" type="button" data-ed-reset>Use illustration</button>
+      </div>
+    </div>
+    <div data-ed-fields></div>
+    <p class="ed-note" data-ed-note hidden></p>
+    <div class="form-error" data-ed-error role="alert" hidden></div>
+    <button class="btn btn--wine btn--lg btn--block" type="submit" data-ed-save>Save</button>
+  </form>
+</div>
+
+<button class="fab" type="button" data-fab>Kindly RSVP</button>
+<button class="music" type="button" data-music aria-label="Play music" aria-pressed="false" hidden>
+  <svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><path d="M9 18V6l10-2v12" fill="none" stroke="currentColor" stroke-width="1.8"/><circle cx="6.5" cy="18" r="2.5" fill="currentColor"/><circle cx="16.5" cy="16" r="2.5" fill="currentColor"/></svg>
+</button>
+<audio data-audio preload="none" loop></audio>
+<div class="toast" data-toast role="status" aria-live="polite"></div>
+
+<!-- ================================================= RSVP sheet -->
+<div class="sheet" data-sheet hidden>
+  <div class="sheet-card" role="dialog" aria-modal="true" aria-label="RSVP">
+    <span class="sheet-handle" aria-hidden="true"></span>
+    <button class="sheet-x" type="button" data-close-sheet aria-label="Close">×</button>
+    <div class="rsvp" data-rsvp data-view="choose">
+
+      <div class="rsvp-pane" data-pane="choose">
+        <p class="sh-kicker">Kindly reply</p>
+        <h2 class="sh-title">So… are you in?</h2>
+        <p class="sh-sub">Good times are better with good company.</p>
+        <p class="rsvp-current" data-current hidden></p>
+        <div class="choice">
+          <button class="btn btn--wine btn--lg" type="button" data-choice="yes"><span aria-hidden="true">💖</span> Count me in!</button>
+          <button class="btn btn--line btn--lg" type="button" data-choice="no"><span aria-hidden="true">🥹</span> Can’t make it</button>
+        </div>
+        <p class="rsvp-by" data-slot="rsvp-by"></p>
+      </div>
+
+      <form class="rsvp-pane form" data-pane="yes" novalidate>
+        <button class="back" type="button" data-back>← Change my answer</button>
+        <h2 class="sh-title sh-title--sm">Yay! Let’s get you on the list. <span aria-hidden="true">💖</span></h2>
+        <div class="form-error" data-form-error role="alert" hidden></div>
+        <label class="field">
+          <span class="lbl">Full name</span>
+          <input name="name" autocomplete="name" autocapitalize="words" maxlength="80" required>
+          <span class="err" data-err="name"></span>
+        </label>
+        <div class="field">
+          <div class="lbl-row">
+            <span class="lbl" id="contact-lbl">Best way to reach you</span>
+            <span class="seg" role="radiogroup" aria-label="Contact type">
+              <button type="button" role="radio" aria-checked="true" data-ckind="tel">Phone</button>
+              <button type="button" role="radio" aria-checked="false" data-ckind="email">Email</button>
+            </span>
+          </div>
+          <input name="contact" type="tel" inputmode="tel" autocomplete="tel" maxlength="120" aria-labelledby="contact-lbl" placeholder="Your phone number">
+          <span class="err" data-err="contact"></span>
+        </div>
+        <div class="field" data-party hidden>
+          <span class="lbl">How many of you? <small data-party-hint></small></span>
+          <div class="stepper">
+            <button type="button" data-step="-1" aria-label="One fewer">−</button>
+            <output name="partySize" data-party-out>1</output>
+            <button type="button" data-step="1" aria-label="One more">+</button>
+          </div>
+          <span class="err" data-err="partySize"></span>
+        </div>
+        <fieldset class="field">
+          <legend class="lbl">Bringing a game? <span aria-hidden="true">🎲</span></legend>
+          <div class="chips">
+            <label class="chip"><input type="radio" name="bringingGame" value="yes"><span>Yes!</span></label>
+            <label class="chip"><input type="radio" name="bringingGame" value="no" checked><span>Not this time</span></label>
+          </div>
+          <input name="game" class="game-input" placeholder="Which one? (optional)" maxlength="60" hidden>
+        </fieldset>
+        <div class="field note-field">
+          <button type="button" class="linkish" data-note-toggle>+ Add a note for the hosts</button>
+          <textarea name="message" rows="2" maxlength="280" placeholder="Anything we should know?" hidden></textarea>
+        </div>
+        <button class="btn btn--wine btn--lg btn--block" type="submit" data-submit>Confirm my RSVP <span aria-hidden="true">✨</span></button>
+      </form>
+
+      <form class="rsvp-pane form" data-pane="no" novalidate>
+        <button class="back" type="button" data-back>← Change my answer</button>
+        <h2 class="sh-title sh-title--sm">We’ll save you a toast. <span aria-hidden="true">🥂</span></h2>
+        <div class="form-error" data-form-error role="alert" hidden></div>
+        <label class="field">
+          <span class="lbl">Your name</span>
+          <input name="name" autocomplete="name" autocapitalize="words" maxlength="80" required>
+          <span class="err" data-err="name"></span>
+        </label>
+        <div class="field note-field">
+          <button type="button" class="linkish" data-note-toggle>+ Leave a little note</button>
+          <textarea name="message" rows="2" maxlength="280" placeholder="Optional" hidden></textarea>
+        </div>
+        <button class="btn btn--wine btn--lg btn--block" type="submit" data-submit>Send my regrets</button>
+      </form>
+
+      <div class="rsvp-pane done" data-pane="done-yes" tabindex="-1">
+        <div class="petals" data-petals aria-hidden="true"></div>
+        <h2 class="done-title">You’re on the list! <span aria-hidden="true">✨</span></h2>
+        <p class="sh-sub">Can’t wait to see you there!</p>
+        <article class="pass" aria-label="Your guest pass">
+          <span class="pass-stamp" data-art="stamp-cherries" aria-hidden="true"></span>
+          <p class="pass-kicker">Official guest pass</p>
+          <h3 class="pass-title" data-slot="p-event"></h3>
+          <div class="pass-perf" aria-hidden="true"></div>
+          <dl class="pass-grid">
+            <div class="full"><dt>Guest</dt><dd data-slot="p-guest"></dd></div>
+            <div><dt>Status</dt><dd class="ok">Confirmed ✓</dd></div>
+            <div><dt data-slot="p-party-lbl">Party</dt><dd data-slot="p-party"></dd></div>
+            <div><dt>Date</dt><dd data-slot="p-date"></dd></div>
+            <div><dt>Time</dt><dd data-slot="p-time"></dd></div>
+            <div class="full"><dt>Location</dt><dd data-slot="p-location"></dd></div>
+          </dl>
+        </article>
+        <div class="countdown" data-countdown></div>
+        <div class="pass-actions">
+          <button class="btn btn--wine" type="button" data-save-pass>Save my pass</button>
+          <button class="btn btn--line" type="button" data-cal-toggle aria-expanded="false">Add to calendar</button>
+          <button class="btn btn--line" type="button" data-directions>Get directions</button>
+          <button class="btn btn--line" type="button" data-update>Update my RSVP</button>
+        </div>
+        <div class="cal-menu" data-cal-menu hidden>
+          <a data-cal="google" target="_blank" rel="noopener">Google Calendar</a>
+          <a data-cal="ics">Apple / Outlook</a>
+        </div>
+        <div class="mylink" data-mylink hidden>
+          <p>Your personal link: check the details or change your RSVP any time. This page also remembers you on this phone.</p>
+          <div class="mylink-row"><input readonly data-mylink-input aria-label="Your personal link"><button type="button" class="btn btn--wine btn--sm" data-copy-link>Copy</button></div>
+          <a class="btn btn--line btn--sm mylink-wa" data-mylink-wa target="_blank" rel="noopener">Send it to myself on WhatsApp</a>
+        </div>
+      </div>
+
+      <div class="rsvp-pane done" data-pane="done-no" tabindex="-1">
+        <h2 class="done-title">We’ll miss you! <span aria-hidden="true">💕</span></h2>
+        <p class="sh-sub">Thanks for letting us know!</p>
+        <button class="btn btn--line" type="button" data-update>Changed your mind? Update my RSVP</button>
+      </div>
+
+      <div class="rsvp-pane done" data-pane="closed">
+        <h2 class="done-title">RSVPs are closed</h2>
+        <p class="sh-sub" data-slot="closed-msg"></p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="sheet sheet--pass" data-pass-modal hidden>
+  <div class="sheet-card" role="dialog" aria-modal="true" aria-label="Save your guest pass">
+    <span class="sheet-handle" aria-hidden="true"></span>
+    <button class="sheet-x" type="button" data-close-modal aria-label="Close">×</button>
+    <div class="pass-img-wrap"><img alt="Your guest pass" data-pass-img><p class="pass-loading" data-pass-loading>Making your pass…</p></div>
+    <p class="pass-tip">Long-press the image to save it to your photos.</p>
+    <div class="pass-modal-actions">
+      <button class="btn btn--wine btn--sm" type="button" data-share-pass hidden>Share / Save</button>
+      <a class="btn btn--line btn--sm" data-download-pass download="guest-pass.png">Download</a>
+    </div>
+  </div>
+</div>
+
+<noscript><div class="noscript">This invitation needs JavaScript to open. Please open the link in your phone’s browser.</div></noscript>
+<script src="config.js?v=0134e0eb"></script>
+<script src="event.js?v=0134e0eb"></script>
+<script src="art.js?v=0134e0eb"></script>
+<script src="static-api.js?v=0134e0eb"></script>
+</body>
+</html>
