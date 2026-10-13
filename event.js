@@ -204,7 +204,7 @@ window.InviteEvent = { validTimeZone, zonedToUtc, eventTimes, mapsLink, guestPub
 (function (look) { var d = window.InviteEvent.DEFAULTS; Object.keys(look).forEach(function (k) { d[k] = look[k]; }); })({
  "eventName": "Two of a Kind",
  "tagline": "Asher & Asherbell's",
- "celebrants": "Birthday Celebration",
+ "celebrants": "27th Birthday",
  "texts": {
   "linerScript": "Cheers to the twins",
   "tape": "for {name} ♡",
@@ -215,9 +215,9 @@ window.InviteEvent = { validTimeZone, zonedToUtc, eventTimes, mapsLink, guestPub
   "gamesTitle": "Got games?",
   "gamesText": "Bring your favourites along!",
   "gamesBack": "Cards, board games, anything that gets everyone laughing.",
-  "comfyTitle": "Come comfortable",
-  "comfyText": "No dress code. Just good vibes.",
-  "comfyBack": "Sneakers, sundress or sweats. You do you."
+  "comfyTitle": "No dress code. Just good vibes",
+  "comfyText": "Nothing too formal, just leave the everyday casual fits home",
+  "comfyBack": "Think cute, colourful, and effortlessly chic"
  },
  "amp": {
   "text": "&",
@@ -248,5 +248,11 @@ window.InviteEvent = { validTimeZone, zonedToUtc, eventTimes, mapsLink, guestPub
    "caption": "game night",
    "note": "winner picks the next song"
   }
- ]
+ ],
+ "date": "2026-11-21",
+ "time": "13:00",
+ "endTime": "",
+ "venue": "Private Airbnb",
+ "area": "Kyanja",
+ "rsvpDeadline": "2026-11-14"
 });

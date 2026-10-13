@@ -160,7 +160,8 @@
   // ---------------------------------------------------------------- guests
   function waLink(g, text) {
     var c = String(g.contact || '');
-    var intl = /^\s*(\+|00)/.test(c) ? c.replace(/\D/g, '').replace(/^00/, '') : '';
+    var d = c.replace(/\D/g, '');
+    var intl = /^\s*(\+|00)/.test(c) ? d.replace(/^00/, '') : /^0\d{9}$/.test(d) ? '256' + d.slice(1) : ''; // Ugandan 07… numbers
     return 'https://wa.me/' + intl + '?text=' + encodeURIComponent(text);
   }
   function inviteText(g) {
@@ -186,7 +187,7 @@
     $('[data-guests-empty]').hidden = ST.guests.length > 0;
     $('[data-guests]').innerHTML = list.map(function (g) {
       var meta = [];
-      if (g.contact) meta.push(esc(g.contact));
+      if (g.contact) meta.push(/^@/.test(g.contact) ? 'Snapchat ' + esc(g.contact) : /@/.test(g.contact) ? esc(g.contact) : 'WhatsApp ' + esc(g.contact));
       if (g.status === 'attending') meta.push('Party of ' + g.partySize);
       else meta.push('Up to ' + g.maxParty);
       if (g.bringingGame) meta.push('🎲 ' + esc(g.game || 'a game'));

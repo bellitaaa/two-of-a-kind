@@ -348,9 +348,6 @@
   function prefill() {
     var g = S.guest;
     [formYes, formNo].forEach(function (f) { f.elements.name.value = g ? g.name : ''; });
-    var contact = g ? g.contact : '';
-    formYes.elements.contact.value = contact || '';
-    setContactKind(contact && contact.indexOf('@') > -1 ? 'email' : 'tel');
     party = g && g.partySize ? Math.min(g.partySize, maxParty()) : 1;
     renderParty();
     var bring = !!(g && g.bringingGame);
@@ -369,15 +366,6 @@
     else cur.hidden = true;
   }
 
-  function setContactKind(kind) {
-    var input = formYes.elements.contact;
-    $$('[data-ckind]').forEach(function (b) { b.setAttribute('aria-checked', String(b.dataset.ckind === kind)); });
-    if (kind === 'email') { input.type = 'email'; input.inputMode = 'email'; input.autocomplete = 'email'; input.placeholder = 'you@example.com'; }
-    else { input.type = 'tel'; input.inputMode = 'tel'; input.autocomplete = 'tel'; input.placeholder = 'Your phone number'; }
-  }
-  $$('[data-ckind]').forEach(function (b) {
-    b.addEventListener('click', function () { setContactKind(b.dataset.ckind); formYes.elements.contact.focus(); });
-  });
 
   var party = 1;
   function renderParty() {
@@ -439,12 +427,6 @@
   function validate(form, attending) {
     var f = {};
     if (form.elements.name.value.trim().length < 2) f.name = 'Please add your name.';
-    if (attending) {
-      var c = form.elements.contact.value.trim();
-      var digits = c.replace(/\D/g, '');
-      if (!c) f.contact = 'Add a phone number or email so we can reach you.';
-      else if (c.indexOf('@') > -1 ? !EMAIL_RE.test(c) : (digits.length < 7 || digits.length > 15)) f.contact = 'That doesn’t look like a phone number or email.';
-    }
     return f;
   }
   function rid() { return (window.crypto && crypto.randomUUID) ? crypto.randomUUID() : Date.now().toString(36) + Math.random().toString(36).slice(2); }
@@ -461,7 +443,6 @@
     form._rid = form._rid || rid();
     var payload = { token: S.token || undefined, attending: attending, name: form.elements.name.value.trim(), message: form.elements.message.value.trim(), requestId: form._rid };
     if (attending) {
-      payload.contact = form.elements.contact.value.trim();
       payload.partySize = party;
       payload.bringingGame = form.querySelector('input[name="bringingGame"]:checked').value === 'yes';
       payload.game = payload.bringingGame ? form.elements.game.value.trim() : '';
