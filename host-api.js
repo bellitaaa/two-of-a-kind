@@ -40,9 +40,20 @@
     var t = EV.eventTimes(s);
     var base = siteBase();
     var guests = (raw.guests || []).slice().sort(function (a, b) { return String(b.respondedAt || b.createdAt).localeCompare(String(a.respondedAt || a.createdAt)); });
-    var st = { invited: guests.length, confirmed: 0, declined: 0, pending: 0, expected: 0, games: [] };
+    var st = { invited: guests.length, confirmed: 0, declined: 0, pending: 0, expected: 0, games: [], drinks: {}, drinkNotes: [], allergies: [] };
     guests.forEach(function (g) {
-      if (g.status === 'attending') { st.confirmed++; st.expected += g.partySize; if (g.bringingGame) st.games.push({ name: g.name, game: g.game || 'A surprise game' }); }
+      if (g.status === 'attending') {
+        st.confirmed++; st.expected += g.partySize;
+        if (g.bringingGame) st.games.push({ name: g.name, game: g.game || 'A surprise game' });
+        var dr = String(g.drinks || '').split(' — ');
+        var known = ['Wine', 'Beer', 'Spirits', 'Cocktails', 'Soft drinks'];
+        var picks = dr[0] ? dr[0].split(', ') : [];
+        var note = dr.slice(1).join(' — ');
+        if (picks.length && picks.every(function (p) { return known.indexOf(p) > -1; })) picks.forEach(function (p) { st.drinks[p] = (st.drinks[p] || 0) + (g.partySize || 1); });
+        else if (dr[0]) note = g.drinks; // only free text was typed
+        if (note) st.drinkNotes.push({ name: g.name, text: note });
+        if (g.allergies) st.allergies.push({ name: g.name, text: g.allergies });
+      }
       else if (g.status === 'declined') st.declined++;
       else st.pending++;
     });
@@ -55,6 +66,7 @@
       stats: st,
       guests: guests.map(function (g) {
         return { id: g.id, name: g.name, contact: g.contact, maxParty: g.maxParty, status: g.status, partySize: g.partySize, bringingGame: g.bringingGame, game: g.game,
+          drinks: g.drinks || '', allergies: g.allergies || '',
           message: g.message, note: g.hostNote, source: g.source === 'shared link' ? 'open' : 'invite', createdAt: g.createdAt, respondedAt: g.respondedAt || null,
           openedAt: g.openedAt || null, remindedAt: g.remindedAt || null, link: base + '?g=' + g.token };
       }),
@@ -87,8 +99,8 @@
     isFree: true,
     exportCsv: function () {
       if (!last) return;
-      var head = ['Name', 'Status', 'Party size', 'Max party', 'Contact', 'Bringing a game', 'Game', 'Message', 'Your note', 'Replied', 'Private link'];
-      var rows = last.guests.map(function (g) { return [g.name, g.status, g.partySize, g.maxParty, g.contact, g.bringingGame ? 'yes' : 'no', g.game, g.message, g.note, g.respondedAt || '', g.link]; });
+      var head = ['Name', 'Status', 'Party size', 'Max party', 'Contact', 'Bringing a game', 'Game', 'Drinks', 'Food allergies', 'Message', 'Your note', 'Replied', 'Private link'];
+      var rows = last.guests.map(function (g) { return [g.name, g.status, g.partySize, g.maxParty, g.contact, g.bringingGame ? 'yes' : 'no', g.game, g.drinks, g.allergies, g.message, g.note, g.respondedAt || '', g.link]; });
       var csv = '﻿' + [head].concat(rows).map(function (r) { return r.map(csvCell).join(','); }).join('\r\n');
       var a = document.createElement('a');
       a.href = URL.createObjectURL(new Blob([csv], { type: 'text/csv' }));

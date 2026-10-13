@@ -89,6 +89,8 @@ function guestPublic(g) {
     maxParty: g.max_party,
     bringingGame: !!g.bringing_game,
     game: g.game,
+    drinks: g.drinks || '',
+    allergies: g.allergies || '',
     message: g.message,
     respondedAt: g.responded_at,
   };

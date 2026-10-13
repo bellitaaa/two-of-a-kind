@@ -20,7 +20,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Pinyon+Script&family=Poppins:wght@300;400;500&display=swap">
-<link rel="stylesheet" href="app.css?v=319d13b0">
+<link rel="stylesheet" href="app.css?v=049a8ec5">
 </head>
 <body class="is-sealed is-loading">
 
@@ -256,6 +256,30 @@
         <div class="petals" data-petals aria-hidden="true"></div>
         <h2 class="done-title">You’re on the list! <span aria-hidden="true">✨</span></h2>
         <p class="sh-sub">Can’t wait to see you there!</p>
+        <form class="extras" data-extras novalidate hidden>
+          <p class="extras-kicker">One more thing… <small>(optional)</small></p>
+          <fieldset class="field">
+            <legend class="lbl">What will you be drinking? <small>(helps us shop)</small></legend>
+            <div class="chips">
+              <label class="chip"><input type="checkbox" name="drinks" value="Wine"><span>Wine 🍷</span></label>
+              <label class="chip"><input type="checkbox" name="drinks" value="Beer"><span>Beer 🍺</span></label>
+              <label class="chip"><input type="checkbox" name="drinks" value="Spirits"><span>Spirits 🥃</span></label>
+              <label class="chip"><input type="checkbox" name="drinks" value="Cocktails"><span>Cocktails 🍸</span></label>
+              <label class="chip"><input type="checkbox" name="drinks" value="Soft drinks"><span>Soft drinks 🧃</span></label>
+            </div>
+            <input name="drinkNote" class="game-input" placeholder="Anything specific? e.g. red wine, Nile" maxlength="60">
+          </fieldset>
+          <label class="field">
+            <span class="lbl">Any food allergies?</span>
+            <input name="allergies" maxlength="120" placeholder="e.g. nuts, shellfish">
+          </label>
+          <div class="form-error" data-extras-error role="alert" hidden></div>
+          <button class="btn btn--wine btn--block" type="submit" data-extras-save>Save</button>
+        </form>
+        <div class="extras extras--done" data-extras-done hidden>
+          <p><b>Noted, thank you ✨</b><br><span data-extras-summary></span></p>
+          <button class="linkish" type="button" data-extras-edit>Change</button>
+        </div>
         <article class="pass" aria-label="Your guest pass">
           <span class="pass-stamp" data-art="stamp-cherries" aria-hidden="true"></span>
           <p class="pass-kicker">Official guest pass</p>
@@ -316,9 +340,9 @@
 </div>
 
 <noscript><div class="noscript">This invitation needs JavaScript to open. Please open the link in your phone’s browser.</div></noscript>
-<script src="config.js?v=319d13b0"></script>
-<script src="event.js?v=319d13b0"></script>
-<script src="art.js?v=319d13b0"></script>
-<script src="static-api.js?v=319d13b0"></script>
+<script src="config.js?v=049a8ec5"></script>
+<script src="event.js?v=049a8ec5"></script>
+<script src="art.js?v=049a8ec5"></script>
+<script src="static-api.js?v=049a8ec5"></script>
 </body>
 </html>

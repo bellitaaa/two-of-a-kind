@@ -67,6 +67,7 @@
   window.__STATIC_API__ = {
     personalLink: function (token) { return pageBase() + '?g=' + token; },
     rsvp: function (payload) { return call(Object.assign({ action: 'rsvp' }, payload)).then(toState); },
+    extras: function (payload) { return call(Object.assign({ action: 'extras' }, payload)).then(toState); },
     icsUrl: function (token, S) { return S ? icsData(S) : null; },
     saveSettings: function (patch) {
       var pw = ls('get', HOST_KEY);

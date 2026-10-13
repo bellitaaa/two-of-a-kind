@@ -446,6 +446,13 @@ a { color: inherit; }
 .err { display: block; margin-top: 6px; font: 400 12.5px/1.35 var(--sans); color: #A71F33; }
 .err:empty { display: none; }
 .game-input, .contact-input { margin-top: 10px; }
+.extras { margin: 0 0 22px; padding: 16px 16px 4px; border-radius: 16px; border: 1px dashed rgba(59, 12, 19, .3); background: rgba(255, 253, 248, .7); text-align: left; }
+.extras-kicker { margin: 0 0 14px; font: 400 30px/1 var(--script); color: var(--rose); }
+.extras-kicker small { font: 300 12px/1 var(--sans); color: var(--ink-soft); }
+.extras .btn { margin-bottom: 14px; }
+.extras--done { display: flex; align-items: flex-start; justify-content: space-between; gap: 12px; padding: 14px 16px; }
+.extras--done p { margin: 0; font: 400 13.5px/1.5 var(--sans); color: var(--ink-soft); }
+.extras--done b { color: var(--burgundy); font-weight: 500; }
 .seg { display: inline-flex; padding: 3px; border-radius: 999px; background: #fff; border: 1px solid rgba(59, 12, 19, .15); }
 .seg button { border: 0; background: none; padding: 6px 12px; border-radius: 999px; font: 500 11px/1 var(--sans); letter-spacing: .06em; color: var(--ink-soft); }
 .seg button[aria-checked="true"] { background: var(--wine); color: var(--ivory); }

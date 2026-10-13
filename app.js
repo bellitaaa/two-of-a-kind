@@ -353,6 +353,7 @@
     var bring = !!(g && g.bringingGame);
     formYes.querySelector('input[name="bringingGame"][value="' + (bring ? 'yes' : 'no') + '"]').checked = true;
     formYes.elements.game.value = g ? g.game || '' : '';
+
     formYes.elements.game.hidden = !bring;
     [formYes, formNo].forEach(function (f) {
       var msg = g ? g.message || '' : '';
@@ -459,6 +460,7 @@
       renderCollage();
       renderReplyCard();
       renderPass();
+      renderExtras();
       setView(currentView(), false);
       if (attending) petals();
       updateFab();
@@ -477,6 +479,57 @@
   }
   formYes.addEventListener('submit', function (ev) { ev.preventDefault(); submitForm(formYes, true); });
   formNo.addEventListener('submit', function (ev) { ev.preventDefault(); submitForm(formNo, false); });
+
+  // ------------------------------------------------------------------ after a yes: optional drinks + food allergies
+  var extrasForm = $('[data-extras]');
+  var extrasDone = $('[data-extras-done]');
+  var DRINKS = ['Wine', 'Beer', 'Spirits', 'Cocktails', 'Soft drinks'];
+  // Saved as "Wine, Beer — red wine please": the ticks, then anything typed.
+  function splitDrinks(v) {
+    var parts = String(v || '').split(' — ');
+    var picks = parts[0] ? parts[0].split(', ') : [];
+    if (picks.some(function (p) { return DRINKS.indexOf(p) === -1; })) return { picks: [], note: String(v || '') };
+    return { picks: picks, note: parts.slice(1).join(' — ') };
+  }
+  function renderExtras(editing) {
+    var g = S.guest;
+    if (!extrasForm) return;
+    if (!g || g.status !== 'attending' || !API.extras) { extrasForm.hidden = true; extrasDone.hidden = true; return; }
+    var d = splitDrinks(g.drinks);
+    $$('input[name="drinks"]', extrasForm).forEach(function (c) { c.checked = d.picks.indexOf(c.value) > -1; });
+    extrasForm.elements.drinkNote.value = d.note;
+    extrasForm.elements.allergies.value = g.allergies || '';
+    var answered = !!(g.drinks || g.allergies);
+    var summary = [g.drinks ? 'Drinking: ' + g.drinks : '', g.allergies ? 'Allergies: ' + g.allergies : ''].filter(Boolean).join(' · ');
+    $('[data-extras-summary]').textContent = summary;
+    extrasForm.hidden = answered && !editing;
+    extrasDone.hidden = !answered || !!editing;
+    $('[data-extras-error]').hidden = true;
+  }
+  if (extrasForm) {
+    $('[data-extras-edit]').addEventListener('click', function () { renderExtras(true); });
+    extrasForm.addEventListener('submit', function (ev) {
+      ev.preventDefault();
+      var picks = $$('input[name="drinks"]:checked', extrasForm).map(function (c) { return c.value; });
+      var note = extrasForm.elements.drinkNote.value.trim().replace(/\s+—\s+/g, ' - ');
+      var payload = {
+        token: S.token, requestId: rid(),
+        drinks: picks.join(', ') + (note ? (picks.length ? ' — ' : '') + note : ''),
+        allergies: extrasForm.elements.allergies.value.trim(),
+      };
+      var btn = $('[data-extras-save]');
+      btn.disabled = true; btn.textContent = 'Saving…';
+      API.extras(payload).then(function (res) {
+        S = res;
+        renderExtras();
+        toast('Thank you, noted ✨');
+      }).catch(function (err) {
+        var er = $('[data-extras-error]');
+        er.textContent = err.status ? err.message : 'We couldn’t reach the invitation just now. Please try again.';
+        er.hidden = false;
+      }).then(function () { btn.disabled = false; btn.textContent = 'Save'; });
+    });
+  }
 
   // ------------------------------------------------------------------ confirmation, pass, calendar, directions
   function locationText() { return (S.location && S.location.address) ? S.location.address : (S.event.area || PH.address); }
@@ -1081,6 +1134,7 @@
     renderDetails();
     renderReplyCard();
     renderPass();
+    renderExtras();
   }
   updateFab();
   if (S.offline) setTimeout(function () { toast(S.offlineReason || 'Couldn’t load the latest details. Check your connection.', 6000); }, 600);

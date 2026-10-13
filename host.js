@@ -91,6 +91,14 @@
 
     $('[data-games]').innerHTML = st.games.length ? st.games.map(function (g) { return '<li><span>' + esc(g.game) + '</span><small>' + esc(g.name) + '</small></li>'; }).join('')
       : '<li class="empty-li">No games pledged yet.</li>';
+    var dk = Object.keys(st.drinks || {}).sort(function (a, b) { return st.drinks[b] - st.drinks[a]; });
+    $('[data-drinks]').innerHTML = dk.length || (st.drinkNotes || []).length
+      ? dk.map(function (k) { return '<li><span>' + esc(k) + '</span><small>' + st.drinks[k] + (st.drinks[k] === 1 ? ' person' : ' people') + '</small></li>'; }).join('') +
+        (st.drinkNotes || []).map(function (d) { return '<li><span>“' + esc(d.text) + '”</span><small>' + esc(d.name) + '</small></li>'; }).join('')
+      : '<li class="empty-li">Drink choices will appear here.</li>';
+    $('[data-allergies]').innerHTML = (st.allergies || []).length
+      ? st.allergies.map(function (a) { return '<li><span>' + esc(a.text) + '</span><small>' + esc(a.name) + '</small></li>'; }).join('')
+      : '<li class="empty-li">No allergies mentioned yet.</li>';
     $('[data-activity]').innerHTML = ST.activity.length ? ST.activity.slice(0, 8).map(function (a) {
       return '<li><span>' + esc(a.name) + ' <span class="pill pill--' + a.status + '">' + label(a.status) + (a.status === 'attending' && a.partySize > 1 ? ' · ' + a.partySize : '') + '</span></span><small>' + ago(a.at) + '</small></li>';
     }).join('') : '<li class="empty-li">Responses will appear here.</li>';
@@ -191,6 +199,8 @@
       if (g.status === 'attending') meta.push('Party of ' + g.partySize);
       else meta.push('Up to ' + g.maxParty);
       if (g.bringingGame) meta.push('🎲 ' + esc(g.game || 'a game'));
+      if (g.status === 'attending' && g.drinks) meta.push('🥂 ' + esc(g.drinks));
+      if (g.status === 'attending' && g.allergies) meta.push('⚠️ Allergies: ' + esc(g.allergies));
       if (g.status === 'pending') meta.push(g.openedAt ? 'Opened ' + ago(g.openedAt) : 'Not opened yet');
       else if (g.respondedAt) meta.push('Replied ' + ago(g.respondedAt));
       if (g.source === 'open') meta.push('via general link');
