@@ -2,252 +2,408 @@
 <html lang="en">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<meta name="theme-color" content="#3B0C13">
-<meta name="robots" content="noindex, nofollow">
-<title>Host dashboard</title>
-<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="robots" content="noindex">
+<title>Court list · Two of a Kind</title>
+<meta name="theme-color" content="#0B2A6B">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='-32 -32 64 64'%3E%3Ccircle r='30' fill='%23DFF24A'/%3E%3Cpath d='M-24 -22Q-4 0 -24 22M24 -22Q4 0 24 22' fill='none' stroke='%23fff' stroke-width='5'/%3E%3C/svg%3E">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,500;1,400;1,500&family=Poppins:wght@300;400;500&display=swap">
-<link rel="stylesheet" href="host.css?v=049a8ec5">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;0,700;1,500&family=Pinyon+Script&display=swap">
+<script src="config.js?v=padel1"></script>
+<style>
+:root {
+  --court: #2F6FE0; --deep: #0B2A6B; --deeper: #071D4D; --line: #FFFFFF; --mist: #EEF3FC; --sky: #A9C7FF; --ink2: #3A5488; --ball: #DFF24A; --warn: #FFC9A8;
+  --script: 'Pinyon Script', cursive; --text: 'Cormorant Garamond', Georgia, serif;
+  color-scheme: light;
+}
+* { box-sizing: border-box; }
+[hidden] { display: none !important; }
+* { font-variant-numeric: lining-nums !important; } /* the serif's old-style 0 and 1 look like O and I */
+html { background: var(--deep); -webkit-text-size-adjust: 100%; }
+body { margin: 0; background: var(--deep); color: var(--line); font: 500 19px/1.45 var(--text); font-feature-settings: "lnum" 1; -webkit-tap-highlight-color: transparent; }
+button, input, textarea { font: inherit; color: inherit; }
+button { cursor: pointer; }
+:focus-visible { outline: 3px solid var(--ball); outline-offset: 2px; }
+.wrap { max-width: 640px; margin: 0 auto; padding: calc(env(safe-area-inset-top, 0px) + 22px) 18px calc(env(safe-area-inset-bottom, 0px) + 48px); }
+h1 { margin: 0; font: 400 48px/1 var(--script); white-space: nowrap; }
+h2 { margin: 0 0 10px; font: 400 38px/1.1 var(--script); }
+.muted { color: var(--sky); }
+.small { font-size: 16px; }
+a { color: var(--ball); }
+
+/* sign in */
+.signin { min-height: 80vh; display: grid; align-content: center; gap: 14px; max-width: 360px; margin: 0 auto; text-align: center; }
+.signin p { margin: 0; }
+.field { text-align: left; }
+.field label { display: block; margin: 0 0 6px 4px; font: italic 500 17px/1.3 var(--text); color: var(--sky); }
+input[type=password], input[type=search], textarea {
+  width: 100%; min-height: 52px; border-radius: 12px; border: 2px solid rgba(169, 199, 255, .4); background: #0E3380; color: var(--line); padding: 10px 14px; font: 600 19px/1.3 var(--text);
+}
+textarea { min-height: 150px; font-weight: 500; resize: vertical; }
+input:focus, textarea:focus { outline: none; border-color: var(--ball); }
+.check { display: flex; gap: 10px; align-items: center; justify-content: center; color: var(--sky); font-size: 17px; }
+.check input { width: 20px; height: 20px; accent-color: var(--ball); }
+.btn { display: inline-flex; align-items: center; justify-content: center; gap: 8px; min-height: 50px; padding: 0 20px; border-radius: 999px; border: 0; font: 700 19px/1 var(--text); text-decoration: none; }
+.btn-main { background: var(--ball); color: var(--deep); }
+.btn-line { background: transparent; color: var(--line); border: 2px solid rgba(255, 255, 255, .45); }
+.btn-small { min-height: 38px; padding: 0 14px; font-size: 16px; white-space: nowrap; }
+.btn:disabled { opacity: .6; }
+.error { margin: 0; color: var(--warn); font-style: italic; }
+
+/* top */
+.top { display: flex; justify-content: space-between; align-items: flex-start; gap: 12px; }
+.top-actions { display: flex; gap: 8px; padding-top: 10px; }
+.board { margin-top: 18px; display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; }
+.board div { background: var(--deeper); border-radius: 10px; padding: 12px 6px 10px; text-align: center; }
+.board b { display: block; font: 700 44px/1 var(--text); color: var(--ball); }
+.board small { display: block; margin-top: 4px; font: italic 500 15px/1.2 var(--text); color: var(--sky); }
+.total { margin: 10px 0 0; text-align: center; color: var(--sky); font-size: 17px; }
+.total b { color: var(--line); }
+
+.card { margin-top: 22px; background: var(--line); color: var(--deep); border-radius: 14px; padding: 18px 16px; }
+.card h2 { color: var(--deep); }
+.card .muted { color: var(--ink2); }
+.card textarea { background: var(--mist); color: var(--deep); border-color: #C9D8F5; }
+.row-actions { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 12px; }
+.card .btn-line { color: var(--deep); border-color: #C9D8F5; }
+.card .btn-dark { background: var(--deep); color: var(--line); }
+.linkbox { margin: 6px 0 0; padding: 10px 12px; background: var(--mist); border-radius: 10px; font: 600 17px/1.3 var(--text); overflow-wrap: anywhere; }
+
+/* list */
+.list-head { margin-top: 30px; display: flex; justify-content: space-between; align-items: baseline; gap: 10px; }
+.filters { display: flex; gap: 8px; flex-wrap: wrap; margin: 4px 0 12px; }
+.filters button { min-height: 38px; padding: 0 14px; border-radius: 999px; border: 1.5px solid rgba(169, 199, 255, .45); background: transparent; color: var(--line); font: 600 16px/1 var(--text); }
+.filters button[aria-pressed=true] { background: var(--line); color: var(--deep); border-color: var(--line); }
+.people { list-style: none; margin: 12px 0 0; padding: 0; }
+.people li { padding: 14px 0; border-top: 1px solid rgba(169, 199, 255, .22); }
+.p-top { display: flex; justify-content: space-between; align-items: baseline; gap: 10px; }
+.p-name { font: 700 22px/1.2 var(--text); overflow-wrap: anywhere; }
+.tag { flex: none; padding: 3px 10px; border-radius: 999px; font: 600 14px/1.3 var(--text); }
+.tag-again { background: var(--ball); color: var(--deep); }
+.tag-new { background: var(--court); color: var(--line); }
+.tag-out { background: transparent; color: var(--sky); border: 1px solid rgba(169, 199, 255, .5); }
+.p-meta { margin: 4px 0 0; font-size: 16px; color: var(--sky); }
+.p-meta b { color: var(--line); font-weight: 600; }
+.p-meta .warn { color: var(--warn); }
+.remove { margin-top: 6px; background: none; border: 0; padding: 4px 0; color: var(--sky); text-decoration: underline; font: italic 500 15px/1.2 var(--text); }
+.remove.armed { color: var(--warn); font-weight: 600; }
+.empty { margin: 14px 0 0; color: var(--sky); font-style: italic; }
+.notes li { padding: 8px 0; border-top: 1px solid #E1E9F8; }
+.notes { list-style: none; margin: 0; padding: 0; }
+.tally { display: flex; flex-wrap: wrap; gap: 8px; margin: 0; padding: 0; list-style: none; }
+.tally li { padding: 6px 12px; border-radius: 999px; background: var(--mist); font-weight: 600; font-size: 17px; }
+.toast { position: fixed; left: 50%; bottom: calc(env(safe-area-inset-bottom, 0px) + 18px); transform: translateX(-50%); z-index: 9; max-width: calc(100% - 32px); padding: 12px 18px; border-radius: 12px; background: var(--ball); color: var(--deep); font: 600 17px/1.3 var(--text); box-shadow: 0 10px 24px -10px rgba(0, 0, 0, .5); }
+footer { margin-top: 34px; text-align: center; color: var(--sky); font-size: 15px; }
+</style>
 </head>
 <body>
-<!-- sign in -->
-<section class="login" data-login hidden>
-  <form class="login-card" data-login-form>
-    <p class="kicker">Host dashboard</p>
-    <h1>Welcome back</h1>
-    <label class="f"><span>Password</span><input type="password" name="password" autocomplete="current-password" required></label>
-    <p class="msg msg--err" data-login-err hidden></p>
-    <button class="b b--primary b--block" type="submit">Sign in</button>
+<div class="wrap">
+
+  <!-- sign in -->
+  <form class="signin" id="signin" hidden>
+    <h1>Court list</h1>
+    <p class="muted">Only for Asher &amp; Asherbell. Use the password you typed into the Google script.</p>
+    <div class="field">
+      <label for="pw">Dashboard password</label>
+      <input type="password" id="pw" autocomplete="current-password" required minlength="8">
+    </div>
+    <label class="check"><input type="checkbox" id="remember" checked> Keep me signed in on this phone</label>
+    <p class="error" id="signin-err" role="alert" hidden></p>
+    <button class="btn btn-main" type="submit">Sign in</button>
   </form>
-</section>
 
-<!-- app -->
-<div class="app" data-app hidden>
-  <header class="top">
-    <div>
-      <p class="kicker" data-h-date></p>
-      <h1 data-h-name>Your gathering</h1>
+  <!-- dashboard -->
+  <main id="dash" hidden>
+    <div class="top">
+      <h1>Court list</h1>
+      <div class="top-actions">
+        <button class="btn btn-line btn-small" type="button" id="refresh">Refresh</button>
+        <button class="btn btn-line btn-small" type="button" id="signout">Sign out</button>
+      </div>
     </div>
-    <div class="top-actions">
-      <a class="b b--ghost b--sm" href="./" target="_blank" rel="noopener">View &amp; edit ↗</a>
-      <button class="b b--ghost b--sm" type="button" data-logout>Sign out</button>
+    <p class="muted small" id="updated">Loading…</p>
+
+    <div class="board" aria-label="Replies">
+      <div><b data-n="again">0</b><small>in again</small></div>
+      <div><b data-n="new">0</b><small>in, first time</small></div>
+      <div><b data-n="out">0</b><small>can’t make it</small></div>
     </div>
-  </header>
+    <p class="total"><b data-n="in">0</b> <span data-friends>friends</span> coming, plus the two of you. Guests only see this number, never names.</p>
 
-  <nav class="tabs" role="tablist">
-    <button role="tab" data-tab="overview" aria-selected="true">Overview</button>
-    <button role="tab" data-tab="guests">Guests</button>
-    <button role="tab" data-tab="invite">Invites</button>
-    <button role="tab" data-tab="event">Event</button>
-  </nav>
+    <div class="list-head"><h2>Replies</h2><span class="muted small" data-shown></span></div>
+    <input type="search" id="search" placeholder="Search a name" aria-label="Search a name">
+    <div class="filters" role="group" aria-label="Show">
+      <button type="button" data-filter="all" aria-pressed="true">Everyone</button>
+      <button type="button" data-filter="in" aria-pressed="false">Coming</button>
+      <button type="button" data-filter="out" aria-pressed="false">Can’t make it</button>
+    </div>
+    <ul class="people" id="people"></ul>
+    <p class="empty" id="empty" hidden>No replies yet. Share the invitation below.</p>
 
-  <main class="wrap">
-    <!-- OVERVIEW -->
-    <section data-panel="overview">
-      <div class="banner" data-missing hidden></div>
-      <div class="stats" data-stats></div>
-      <div class="grid2">
-        <article class="card">
-          <h2>Games coming 🎲</h2>
-          <ul class="list" data-games></ul>
-        </article>
-        <article class="card">
-          <h2>Drinks to buy 🥂</h2>
-          <ul class="list" data-drinks></ul>
-        </article>
-        <article class="card">
-          <h2>Food allergies</h2>
-          <ul class="list" data-allergies></ul>
-        </article>
-        <article class="card">
-          <h2>Latest responses</h2>
-          <ul class="list" data-activity></ul>
-        </article>
-      </div>
-      <article class="card notify-card" id="notify">
-        <h2>Get notified when someone RSVPs</h2>
-        <p class="hint">Every reply (and every change) lands in your Google Sheet and sends you an email straight away. All free.</p>
-
-        <div class="channel">
-          <div class="ch-head"><span class="ch-ico" aria-hidden="true">📋</span><div><h3>Your Google Sheet</h3><p class="hint">The <b>Responses</b> tab gets a new row for each reply. The <b>Guests</b> tab is the full guest list.</p></div><span class="ch-state"><span class="pill pill--attending">On</span></span></div>
-          <div class="row"><a class="b b--primary b--sm" data-open-sheet target="_blank" rel="noopener">Open my sheet ↗</a></div>
-        </div>
-
-        <div class="channel">
-          <div class="ch-head"><span class="ch-ico" aria-hidden="true">✉️</span><div><h3>Email</h3><p class="hint" data-email-to></p></div><span class="ch-state" data-ch-state="email"></span></div>
-          <div class="row"><button class="b b--primary b--sm" type="button" data-test="email">Send a test email</button><button class="b b--ghost b--sm" type="button" data-email-toggle></button></div>
-          <p class="hint hint--sm">To send them to a different address, change it in <b>Event → Notifications</b>.</p>
-        </div>
-
-        <div class="channel">
-          <div class="ch-head"><span class="ch-ico" aria-hidden="true">📱</span><div><h3>Phone pop-ups (optional)</h3><p class="hint">Also free, using the ntfy app. Handy if you don’t check email often.</p></div><span class="ch-state" data-ch-state="push"></span></div>
-          <div data-push-off>
-            <ol class="steps">
-              <li>Install the free <b>ntfy</b> app (App Store or Google Play).</li>
-              <li>Tap <b>Turn on</b> below. You’ll get a private channel name.</li>
-              <li>In the ntfy app tap <b>+</b>, paste the channel name and subscribe.</li>
-            </ol>
-            <button class="b b--ghost b--sm" type="button" data-push-on>Turn on</button>
-          </div>
-          <div data-push-on-panel hidden>
-            <p class="hint">Subscribe to this channel name in the ntfy app (keep it private):</p>
-            <div class="copyrow"><input readonly data-push-topic aria-label="Notification channel name"><button class="b b--ghost b--sm" type="button" data-copy-topic>Copy</button></div>
-            <div class="row"><button class="b b--primary b--sm" type="button" data-test="push">Send a test</button><button class="b b--ghost b--sm" type="button" data-push-off-btn>Turn off</button></div>
-          </div>
-        </div>
-        <div data-notify-errors></div>
-      </article>
+    <section class="card" aria-labelledby="food-h">
+      <h2 id="food-h">Food &amp; drinks</h2>
+      <p class="muted small">From the first RSVP, for people coming this time.</p>
+      <ul class="tally" id="drinks"></ul>
+      <ul class="notes" id="allergies" style="margin-top:12px"></ul>
+      <p class="muted small" id="food-empty" hidden>Nothing noted yet.</p>
     </section>
 
-    <!-- GUESTS -->
-    <section data-panel="guests" hidden>
-      <div class="toolbar">
-        <input class="search" type="search" placeholder="Search guests" data-search aria-label="Search guests">
-        <button class="b b--primary b--sm" type="button" data-open-add>+ Add guests</button>
-      </div>
-      <div class="filters" data-filters>
-        <button data-filter="all" aria-pressed="true">All</button>
-        <button data-filter="attending" aria-pressed="false">Confirmed</button>
-        <button data-filter="pending" aria-pressed="false">Pending</button>
-        <button data-filter="declined" aria-pressed="false">Declined</button>
-      </div>
-      <div class="add card" data-add hidden>
-        <h2>Add guests</h2>
-        <p class="hint">One guest per line: <code>Name, phone or email, max party size</code>. Only the name is required.</p>
-        <textarea rows="5" data-add-text placeholder="Sarah Nakato, +256 772 123456, 2&#10;Daniel Okello, daniel@example.com&#10;Grace"></textarea>
-        <p class="msg msg--err" data-add-err hidden></p>
-        <div class="row-end"><button class="b b--ghost b--sm" type="button" data-cancel-add>Cancel</button><button class="b b--primary b--sm" type="button" data-save-add>Add to list</button></div>
-      </div>
-      <ul class="guests" data-guests></ul>
-      <p class="empty" data-guests-empty hidden>No replies yet. Share your invitation link (Invites tab) and everyone who replies will appear here.</p>
-      <div class="row-end"><a class="b b--ghost b--sm" href="#" data-export>Export CSV</a> <a class="b b--ghost b--sm" data-open-sheet target="_blank" rel="noopener">Open my Google Sheet ↗</a></div>
+    <section class="card" aria-labelledby="wait-h">
+      <h2 id="wait-h">Still to reply</h2>
+      <p class="muted small">Said yes to the first plan, but haven’t replied to the padel invitation yet.</p>
+      <ul class="notes" id="waiting"></ul>
+      <p class="muted small" id="wait-empty" hidden>Everyone from the first list has replied.</p>
     </section>
 
-    <!-- INVITES -->
-    <section data-panel="invite" hidden>
-      <article class="card card--feature">
-        <h2>Your invitation link</h2>
-        <p class="hint">Send this one link to everyone, in a group chat or one by one. Each person who replies gets their own guest pass and a private link to check details or change their RSVP later. Their reply appears in <b>Guests</b> and you get notified.</p>
-        <div class="copyrow"><input readonly data-open-link aria-label="Invitation link"><button class="b b--ghost b--sm" type="button" data-copy="open">Copy</button></div>
-        <div class="row"><a class="b b--primary b--sm" data-share-wa target="_blank" rel="noopener">Share on WhatsApp</a></div>
-        <p class="hint hint--sm">The exact address stays hidden until someone confirms. Each phone number or email can only reply once, so the same person can’t RSVP twice.</p>
-        <div class="settings-mini">
-          <label class="switch"><input type="checkbox" data-s="openInvite"><span></span>Allow RSVPs through the general link</label>
-          <label class="f f--inline"><span>Guests per general RSVP</span><input type="number" min="1" max="10" data-s="openMaxParty" inputmode="numeric"></label>
-          <label class="f f--inline"><span>Headcount limit (0 = none)</span><input type="number" min="0" max="1000" data-s="capacity" inputmode="numeric"></label>
-          <button class="b b--primary b--sm" type="button" data-save-mini>Save</button>
-        </div>
-      </article>
-      <article class="card">
-        <h2>Optional: personal links</h2>
-        <p class="hint">Want a few people to get a link that greets them by name before they reply? Add them in <b>Guests</b> and send their own link. You don’t need this if you’re sending the one link to everyone.</p>
-      </article>
-      <article class="card">
-        <h2>Nudge pending guests</h2>
-        <p class="hint">Only for guests you added in <b>Guests</b> who haven’t replied. Email reminders are sent from your Gmail to those with an email address (once a day at most). For phone numbers, tap WhatsApp to send a ready-written note.</p>
-        <button class="b b--primary b--sm" type="button" data-remind>Email reminders</button>
-        <p class="msg" data-remind-msg hidden></p>
-        <ul class="list nudge" data-nudge></ul>
-      </article>
+    <section class="card" aria-labelledby="share-h">
+      <h2 id="share-h">Share the invitation</h2>
+      <p class="linkbox" id="link"></p>
+      <div class="field" style="margin-top:14px">
+        <label for="msg" style="color:var(--ink2)">WhatsApp message (edit it if you like)</label>
+        <textarea id="msg"></textarea>
+      </div>
+      <div class="row-actions">
+        <a class="btn btn-main" id="wa" href="#" target="_blank" rel="noopener">Share on WhatsApp</a>
+        <button class="btn btn-line" type="button" id="copy">Copy link</button>
+      </div>
     </section>
 
-    <!-- EVENT -->
-    <section data-panel="event" hidden>
-      <form class="card form" data-event-form novalidate>
-        <h2>The basics</h2>
-        <label class="f"><span>Event name</span><input data-s="eventName" maxlength="80" placeholder="e.g. Two of a Kind"></label>
-        <label class="f"><span>Birthday girls’ names</span><input data-s="celebrants" maxlength="100" placeholder="e.g. Amara &amp; Ayana"></label>
-        <label class="f"><span>Hosted by (signs the invitation)</span><input data-s="hostName" maxlength="60"></label>
-        <label class="f"><span>Tagline</span><input data-s="tagline" maxlength="120"></label>
-        <div class="f-row">
-          <label class="f"><span>Date</span><input type="date" data-s="date"></label>
-          <label class="f"><span>Start time</span><input type="time" data-s="time"></label>
-        </div>
-        <div class="f-row">
-          <label class="f"><span>End time (blank = “till late”)</span><input type="time" data-s="endTime"></label>
-          <label class="f"><span>RSVP deadline</span><input type="date" data-s="rsvpDeadline"></label>
-        </div>
-        <label class="f"><span>Time zone</span><input data-s="timezone" list="tz-list" autocomplete="off"></label>
-        <datalist id="tz-list"></datalist>
-        <label class="switch"><input type="checkbox" data-s="allowLate"><span></span>Keep accepting RSVPs after the deadline</label>
-
-        <h2>Where</h2>
-        <label class="f"><span>Venue</span><input data-s="venue" maxlength="60"></label>
-        <label class="f"><span>General area (shown to everyone)</span><input data-s="area" maxlength="120" placeholder="Neighbourhood, city"></label>
-        <label class="f"><span>Full Airbnb address</span><textarea data-s="address" rows="2" maxlength="300"></textarea></label>
-        <label class="f"><span>Google Maps link (optional)</span><input type="url" data-s="mapsUrl" placeholder="https://maps.app.goo.gl/…"></label>
-        <label class="switch"><input type="checkbox" data-s="hideAddress"><span></span>Only show the full address to confirmed guests</label>
-        <label class="f f--inline"><span>Default guests per personal invite</span><input type="number" min="1" max="10" data-s="defaultMaxParty" inputmode="numeric"></label>
-
-        <h2>Notifications</h2>
-        <label class="f"><span>Send RSVP emails to (blank = your Google account)</span><input type="email" data-s="notifyEmail" placeholder="you@gmail.com"></label>
-        <label class="switch"><input type="checkbox" data-s="notifyOnRsvp"><span></span>Email me when someone RSVPs</label>
-
-        <div class="savebar"><p class="msg" data-save-msg hidden></p><button class="b b--primary" type="submit">Save changes</button></div>
-      </form>
-
-      <article class="card">
-        <h2>Polaroid photos</h2>
-        <p class="hint"><b>Easiest:</b> open the invitation (<a href="./" target="_blank" rel="noopener">View &amp; edit ↗</a>) while signed in here and tap <b>Edit</b>. You can change photos, captions, the notes on the back of each photo and all the card wording right on the page.</p>
-        <p class="hint">The four Polaroids on the invitation. Swap the illustrations for your own photos (flowers, the Airbnb, drinks, candles). Captions are handwritten on the frame. Photos are resized on your phone before upload so the invitation stays fast.</p>
-        <ul class="mood" data-mood></ul>
-        <div class="row-end"><button class="b b--primary b--sm" type="button" data-save-mood>Save photos</button></div>
-      </article>
-
-      <article class="card" hidden>
-        <h2>Link preview artwork</h2>
-        <p class="hint">The picture WhatsApp shows when you share a link (cropped to 1200×630). WhatsApp caches previews, so changes can take a while to appear on links already sent.</p>
-        <div class="art-row"><img data-art-preview alt="Current preview artwork"><div class="art-actions">
-          <label class="b b--ghost b--sm file-b">Upload image<input type="file" accept="image/*" data-art-file></label>
-          <button class="b b--ghost b--sm" type="button" data-art-reset>Use default</button></div></div>
-      </article>
-
-      <article class="card">
-        <h2>Background music</h2>
-        <p class="hint">Optional. Plays softly when a guest opens the envelope, with a pause button. Paste a direct link to an MP3 file (it must start with https:// and end in .mp3). Only use music you have the rights to share.</p>
-        <p class="hint" data-music-now></p>
-        <label class="f"><span>Link to an MP3</span><input type="url" data-music-url placeholder="https://…/song.mp3" autocomplete="off"></label>
-        <div class="row">
-          <label class="b b--ghost b--sm file-b" hidden>Upload track<input type="file" data-music-file></label>
-          <button class="b b--primary b--sm" type="button" data-music-save>Save</button>
-          <button class="b b--ghost b--sm" type="button" data-music-clear>Remove</button>
-        </div>
-      </article>
+    <section class="card" aria-labelledby="more-h">
+      <h2 id="more-h">More</h2>
+      <p class="muted small" id="email-line"></p>
+      <div class="row-actions">
+        <button class="btn btn-dark" type="button" id="test-email">Send me a test email</button>
+        <button class="btn btn-line" type="button" id="csv">Download the list (CSV)</button>
+        <a class="btn btn-line" id="sheet" href="#" target="_blank" rel="noopener">Open the Google Sheet</a>
+      </div>
     </section>
+    <footer>with love, Asher &amp; Asherbell</footer>
   </main>
 </div>
+<div class="toast" id="toast" role="status" hidden></div>
 
-<!-- edit guest -->
-<div class="modal" data-edit hidden>
-  <form class="modal-card" data-edit-form>
-    <button class="x" type="button" data-close-edit aria-label="Close">×</button>
-    <h2>Edit guest</h2>
-    <label class="f"><span>Name</span><input name="name" maxlength="80" required></label>
-    <label class="f"><span>Phone or email</span><input name="contact" maxlength="120"></label>
-    <div class="f-row">
-      <label class="f"><span>Max party</span><input name="maxParty" type="number" min="1" max="10" inputmode="numeric"></label>
-      <label class="f"><span>Status</span><select name="status"><option value="pending">Pending</option><option value="attending">Confirmed</option><option value="declined">Declined</option></select></label>
-    </div>
-    <label class="f" data-edit-party><span>Party size (if confirmed)</span><input name="partySize" type="number" min="1" max="10" inputmode="numeric"></label>
-    <label class="f"><span>Private note</span><input name="note" maxlength="200" placeholder="Only you see this"></label>
-    <p class="msg msg--err" data-edit-err hidden></p>
-    <div class="modal-actions">
-      <button class="b b--danger b--sm" type="button" data-delete>Remove guest</button>
-      <button class="b b--ghost b--sm" type="button" data-newlink>New link</button>
-      <button class="b b--primary b--sm" type="submit">Save</button>
-    </div>
-  </form>
-</div>
+<script>
+(function () {
+  'use strict';
+  var CFG = window.INVITE_CONFIG || {};
+  var SCRIPT = String(CFG.scriptUrl || '');
+  var ready = /^https:\/\/script\.google(usercontent)?\.com\//.test(SCRIPT) || /^http:\/\/localhost[:/]/.test(SCRIPT);
+  var KEY = 'padel_host_pw';
+  // ?padel makes WhatsApp fetch the new link preview instead of the old invitation's cached one
+  var INVITE = location.origin + location.pathname.replace(/host\.html$/, '') + '?padel';
+  var data = null, filter = 'all', query = '';
+  var $ = function (id) { return document.getElementById(id); };
 
-<div class="toast" data-toast role="status" aria-live="polite"></div>
-<div id="sprite"></div>
-<script src="config.js?v=049a8ec5" defer></script>
-<script src="event.js?v=049a8ec5" defer></script>
-<script src="host-api.js?v=049a8ec5" defer></script>
-<script src="art.js?v=049a8ec5" defer></script>
-<script src="host.js?v=049a8ec5" defer></script>
+  function store(kind, op, v) {
+    try {
+      var s = kind === 'local' ? localStorage : sessionStorage;
+      if (op === 'get') return s.getItem(KEY);
+      if (op === 'set') return s.setItem(KEY, v);
+      return s.removeItem(KEY);
+    } catch (e) { return null; }
+  }
+  function password() { return store('session', 'get') || store('local', 'get'); }
+  function forget() { store('session', 'del'); store('local', 'del'); }
+
+  function call(body) {
+    if (!ready) return Promise.reject(new Error('config.js doesn’t have the Google script link yet.'));
+    return fetch(SCRIPT, { method: 'POST', headers: { 'Content-Type': 'text/plain;charset=utf-8' }, body: JSON.stringify(body) })
+      .then(function (r) { return r.text(); }, function () { throw new Error('Couldn’t reach the Google script. Check your connection.'); })
+      .then(function (t) {
+        var d;
+        try { d = JSON.parse(t); } catch (e) { throw new Error('The Google script didn’t answer properly. Check it’s deployed with access “Anyone”.'); }
+        if (d.status >= 400) { var x = new Error(d.error || 'Something went wrong.'); x.code = d.code; throw x; }
+        return d;
+      });
+  }
+  function hostCall(body) {
+    body.password = password();
+    return call(body).catch(function (e) {
+      if (e.code === 'auth') { forget(); showSignin('Your password changed. Sign in again.'); }
+      throw e;
+    });
+  }
+
+  var toastTimer;
+  function toast(t) {
+    var el = $('toast');
+    el.textContent = t; el.hidden = false;
+    clearTimeout(toastTimer); toastTimer = setTimeout(function () { el.hidden = true; }, 2600);
+  }
+
+  // ---------------------------------------------------------------- sign in
+  function showSignin(msg) {
+    $('dash').hidden = true; $('signin').hidden = false;
+    var e = $('signin-err'); e.textContent = msg || ''; e.hidden = !msg;
+    $('pw').focus();
+  }
+  $('signin').addEventListener('submit', function (ev) {
+    ev.preventDefault();
+    var pw = $('pw').value;
+    var btn = this.querySelector('button');
+    btn.disabled = true; btn.textContent = 'Signing in…';
+    call({ action: 'host', password: pw }).then(function (d) {
+      forget();
+      store($('remember').checked ? 'local' : 'session', 'set', pw);
+      $('pw').value = '';
+      show(d);
+    }).catch(function (e) {
+      showSignin(e.message);
+    }).then(function () { btn.disabled = false; btn.textContent = 'Sign in'; });
+  });
+  $('signout').addEventListener('click', function () { forget(); data = null; showSignin(); });
+  $('refresh').addEventListener('click', function () { load(true); });
+
+  function load(manual) {
+    $('updated').textContent = 'Loading…';
+    return hostCall({ action: 'host' }).then(function (d) { show(d); if (manual) toast('Up to date'); })
+      .catch(function (e) { if (e.code === 'auth') return; if (!data) showSignin(e.message); else { $('updated').textContent = e.message; toast(e.message); } });
+  }
+
+  // ---------------------------------------------------------------- render
+  var LABEL = { again: 'In again', 'new': 'First time', out: 'Can’t make it' };
+  function when(iso) {
+    var d = new Date(iso);
+    if (isNaN(d)) return '';
+    return d.toLocaleString('en-GB', { timeZone: 'Africa/Kampala', weekday: 'short', day: 'numeric', month: 'short', hour: 'numeric', minute: '2-digit' });
+  }
+  function el(tag, cls, text) { var e = document.createElement(tag); if (cls) e.className = cls; if (text !== undefined) e.textContent = text; return e; }
+  var STATUS = { attending: 'said yes', declined: 'said no', pending: 'didn’t reply' };
+
+  function show(d) {
+    data = d;
+    $('signin').hidden = true; $('dash').hidden = false;
+    $('updated').textContent = 'Updated ' + new Date().toLocaleTimeString('en-GB', { hour: 'numeric', minute: '2-digit' });
+    var n = { again: 0, 'new': 0, out: 0 };
+    d.rows.forEach(function (r) { if (n[r.choice] !== undefined) n[r.choice]++; });
+    n.in = n.again + n['new'];
+    Object.keys(n).forEach(function (k) { document.querySelector('[data-n="' + k + '"]').textContent = n[k]; });
+    document.querySelector('[data-friends]').textContent = n.in === 1 ? 'friend' : 'friends';
+    renderPeople();
+    renderFood();
+    renderWaiting();
+    $('sheet').href = d.sheetUrl || '#';
+    $('email-line').textContent = d.emailTo ? 'An email goes to ' + d.emailTo + ' whenever someone replies.' : 'Reply emails are off (see the top of the Google script).';
+    $('test-email').hidden = !d.emailTo;
+  }
+
+  function renderPeople() {
+    var list = $('people');
+    list.textContent = '';
+    var rows = data.rows.slice().sort(function (a, b) { return String(b.last).localeCompare(String(a.last)); }).filter(function (r) {
+      if (filter === 'in' && r.choice === 'out') return false;
+      if (filter === 'out' && r.choice !== 'out') return false;
+      return !query || r.name.toLowerCase().indexOf(query) > -1;
+    });
+    rows.forEach(function (r) {
+      var li = el('li');
+      var top = el('div', 'p-top');
+      top.appendChild(el('span', 'p-name', r.name));
+      top.appendChild(el('span', 'tag tag-' + r.choice, LABEL[r.choice] || r.choice));
+      li.appendChild(top);
+      var meta = el('p', 'p-meta');
+      if (r.match) {
+        meta.appendChild(document.createTextNode('First invite: '));
+        meta.appendChild(el('b', '', (r.match.sure ? '' : 'maybe ' + r.match.name + '? ') + (STATUS[r.match.status] || r.match.status || '')));
+        if (r.match.drinks) { meta.appendChild(document.createTextNode(' · Drinks: ')); meta.appendChild(el('b', '', r.match.drinks)); }
+        if (r.match.allergies) { meta.appendChild(document.createTextNode(' · ')); meta.appendChild(el('span', 'warn', 'Allergies: ' + r.match.allergies)); }
+      } else {
+        meta.textContent = 'Not on the first list';
+      }
+      li.appendChild(meta);
+      li.appendChild(el('p', 'p-meta', 'Replied ' + when(r.last)));
+      var rm = el('button', 'remove', 'Remove');
+      rm.type = 'button';
+      rm.addEventListener('click', function () {
+        if (!rm.classList.contains('armed')) { rm.classList.add('armed'); rm.textContent = 'Tap again to remove ' + r.name; setTimeout(function () { rm.classList.remove('armed'); rm.textContent = 'Remove'; }, 4000); return; }
+        rm.disabled = true; rm.textContent = 'Removing…';
+        hostCall({ action: 'remove', id: r.id }).then(function () { toast(r.name + ' removed'); return load(); })
+          .catch(function (e) { rm.disabled = false; rm.textContent = 'Remove'; toast(e.message); });
+      });
+      li.appendChild(rm);
+      list.appendChild(li);
+    });
+    $('empty').hidden = data.rows.length > 0;
+    $('empty').textContent = 'No replies yet. Share the invitation below.';
+    if (data.rows.length && !rows.length) { $('empty').hidden = false; $('empty').textContent = 'Nobody matches that.'; }
+    document.querySelector('[data-shown]').textContent = rows.length === data.rows.length ? data.rows.length + ' in total' : rows.length + ' of ' + data.rows.length;
+  }
+
+  function renderFood() {
+    var coming = data.rows.filter(function (r) { return r.choice !== 'out' && r.match && r.match.status === 'attending'; });
+    var tally = {};
+    coming.forEach(function (r) {
+      String(r.match.drinks || '').split('—')[0].split(',').map(function (x) { return x.trim(); }).filter(Boolean).forEach(function (k) { tally[k] = (tally[k] || 0) + 1; });
+    });
+    var drinks = $('drinks'); drinks.textContent = '';
+    Object.keys(tally).sort(function (a, b) { return tally[b] - tally[a]; }).forEach(function (k) { drinks.appendChild(el('li', '', k + ' ' + tally[k])); });
+    var al = $('allergies'); al.textContent = '';
+    coming.forEach(function (r) {
+      var notes = [];
+      if (r.match.allergies) notes.push('Allergies: ' + r.match.allergies);
+      var extra = String(r.match.drinks || '').split('—')[1];
+      if (extra && extra.trim()) notes.push('Drinks note: ' + extra.trim());
+      if (!notes.length) return;
+      var li = el('li');
+      li.appendChild(el('b', '', r.name + ': '));
+      li.appendChild(document.createTextNode(notes.join(' · ')));
+      al.appendChild(li);
+    });
+    $('food-empty').hidden = !!(drinks.children.length || al.children.length);
+  }
+
+  function renderWaiting() {
+    var w = $('waiting'); w.textContent = '';
+    (data.waiting || []).forEach(function (g) { w.appendChild(el('li', '', g.name)); });
+    $('wait-empty').hidden = (data.waiting || []).length > 0;
+    $('wait-empty').textContent = data.oldCount ? 'Everyone from the first list has replied.' : 'The first invitation’s guest list wasn’t found in this Sheet.';
+  }
+
+  $('search').addEventListener('input', function () { query = this.value.trim().toLowerCase(); if (data) renderPeople(); });
+  Array.prototype.forEach.call(document.querySelectorAll('[data-filter]'), function (b) {
+    b.addEventListener('click', function () {
+      filter = b.dataset.filter;
+      Array.prototype.forEach.call(document.querySelectorAll('[data-filter]'), function (x) { x.setAttribute('aria-pressed', String(x === b)); });
+      if (data) renderPeople();
+    });
+  });
+
+  // ---------------------------------------------------------------- share
+  $('link').textContent = INVITE;
+  $('msg').value = 'New plan! 🎾 We’ve swapped a weekend indoors for a morning on the court for our 27th.\n\n' +
+    'Saturday 21 November, 10 AM to 1 PM, Padel X, Bugolobi. This one’s on us, so there’s nothing to contribute.\n\n' +
+    'Said yes before? Please say it again here, and if you’re new to the list, you’re very welcome: ' + INVITE + '\n\nAsher & Asherbell';
+  function waLink() { $('wa').href = 'https://wa.me/?text=' + encodeURIComponent($('msg').value); }
+  $('msg').addEventListener('input', waLink); waLink();
+  $('copy').addEventListener('click', function () {
+    var done = function () { toast('Link copied'); };
+    if (navigator.clipboard) navigator.clipboard.writeText(INVITE).then(done, function () { toast(INVITE); });
+    else toast(INVITE);
+  });
+
+  // ---------------------------------------------------------------- more
+  $('test-email').addEventListener('click', function () {
+    var b = this; b.disabled = true;
+    hostCall({ action: 'testEmail' }).then(function (d) { toast('Sent to ' + d.to); }, function (e) { toast(e.message); }).then(function () { b.disabled = false; });
+  });
+  $('csv').addEventListener('click', function () {
+    if (!data) return;
+    var q = function (v) { v = String(v == null ? '' : v); if (/^[=+\-@]/.test(v)) v = "'" + v; return '"' + v.replace(/"/g, '""') + '"'; };
+    var lines = [['Name', 'Reply', 'First replied', 'Last changed', 'First invite', 'Drinks', 'Food allergies'].map(q).join(',')];
+    data.rows.forEach(function (r) {
+      var m = r.match || {};
+      lines.push([r.name, LABEL[r.choice] || r.choice, when(r.first), when(r.last), r.match ? (m.sure ? '' : 'maybe ' + m.name + ': ') + (STATUS[m.status] || m.status || '') : 'no', m.drinks || '', m.allergies || ''].map(q).join(','));
+    });
+    var blob = new Blob(['﻿' + lines.join('\r\n')], { type: 'text/csv' });
+    var a = document.createElement('a');
+    a.href = URL.createObjectURL(blob); a.download = 'padel-court-list.csv';
+    document.body.appendChild(a); a.click(); a.remove();
+  });
+
+  // ---------------------------------------------------------------- start
+  if (password()) load(); else showSignin();
+})();
+</script>
 </body>
 </html>

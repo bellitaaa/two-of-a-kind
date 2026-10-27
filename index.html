@@ -2,347 +2,642 @@
 <html lang="en">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<meta name="theme-color" content="#FAF6EF">
-<meta name="robots" content="noindex, nofollow">
-<meta name="format-detection" content="telephone=no">
-<title>You’re invited 💌</title>
-<meta name="description" content="Two of a Kind · A Birthday Celebration · Tap to open your invitation.">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Two of a Kind · Asher &amp; Asherbell’s 27th</title>
+<meta name="description" content="A morning of padel for Asher &amp; Asherbell’s 27th. Saturday 21 November, 10 AM to 1 PM, Padel X Bugolobi.">
 <meta property="og:type" content="website">
-<meta property="og:title" content="You’re invited 💌">
-<meta property="og:description" content="Two of a Kind · A Birthday Celebration · Tap to open your invitation.">
-<!-- OPTIONAL: for the envelope picture in WhatsApp previews, replace YOUR-GITHUB-NAME below with your GitHub username. -->
-<meta property="og:image" content="https://YOUR-GITHUB-NAME.github.io/two-of-a-kind/og-default.jpg">
+<meta property="og:title" content="Two of a Kind · a morning of padel">
+<meta property="og:description" content="Asher &amp; Asherbell’s 27th. Saturday 21 November, 10 AM to 1 PM at Padel X, Bugolobi. Tap to open.">
+<meta property="og:image" content="https://bellitaaa.github.io/two-of-a-kind/og-padel.jpg">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
 <meta name="twitter:card" content="summary_large_image">
-<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='-32 -32 64 64'%3E%3Ccircle r='30' fill='%23DFF24A'/%3E%3Cpath d='M-24 -22Q-4 0 -24 22M24 -22Q4 0 24 22' fill='none' stroke='%23fff' stroke-width='5'/%3E%3C/svg%3E">
+<meta name="theme-color" content="#2F6FE0">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Pinyon+Script&family=Poppins:wght@300;400;500&display=swap">
-<link rel="stylesheet" href="app.css?v=049a8ec5">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;0,700;1,500&family=Pinyon+Script&display=swap">
+<style>
+/* Concept: a morning on court. The page is the court, the twins are the two players on it,
+   the details live on a scoreboard. The script carries the personality; the court geometry stays clean.
+   Boldness is spent on one moment: the opening serve. */
+:root {
+  --court: #2F6FE0;      /* tennis blue: the playing surface */
+  --deep: #0B2A6B;       /* deep court blue: surrounds, ink, scoreboard */
+  --line: #FFFFFF;       /* court lines and paper */
+  --mist: #EEF3FC;       /* off-court white */
+  --sky: #A9C7FF;        /* quiet secondary on blue */
+  --ink2: #3A5488;       /* quiet secondary on white */
+  --ball: #DFF24A;       /* only the ball, and the scoreboard lights */
+  --script: 'Pinyon Script', 'Snell Roundhand', cursive;
+  --text: 'Cormorant Garamond', Georgia, serif;
+  --gutter: 20px;
+  --safe-t: env(safe-area-inset-top, 0px);
+  --safe-b: env(safe-area-inset-bottom, 0px);
+  color-scheme: light;
+}
+* { box-sizing: border-box; }
+[hidden] { display: none !important; }
+* { font-variant-numeric: lining-nums !important; } /* the serif's old-style 0 and 1 look like O and I */
+html { background: var(--deep); -webkit-text-size-adjust: 100%; }
+body { margin: 0; color: var(--deep); font: 500 20px/1.5 var(--text); background: var(--mist); overflow-x: clip; -webkit-tap-highlight-color: transparent; font-feature-settings: "lnum" 1; }
+button, input { font: inherit; color: inherit; }
+button { cursor: pointer; }
+:focus-visible { outline: 3px solid var(--ball); outline-offset: 3px; }
+.page { max-width: 520px; margin: 0 auto; background: var(--mist); }
+
+/* ============================================================ the serve (opening) */
+.intro { position: fixed; inset: 0; z-index: 50; overflow: hidden; background: var(--court); touch-action: manipulation; cursor: pointer; }
+.intro-court { position: absolute; inset: 0; width: 100%; height: 100%; }
+.intro-ball { position: absolute; left: 0; top: 0; width: 64px; height: 64px; margin: -32px 0 0 -32px; will-change: transform; z-index: 3; }
+.intro-ball svg { width: 100%; height: 100%; display: block; }
+.intro-ball.waiting { animation: bob 1.1s cubic-bezier(.4, 0, .6, 1) infinite; }
+@keyframes bob { 50% { translate: 0 -18px; } }
+.intro-shadow { position: absolute; left: 0; top: 0; width: 70px; height: 16px; margin: -8px 0 0 -35px; border-radius: 50%; background: rgba(6, 22, 60, .35); filter: blur(2px); z-index: 2; opacity: 0; will-change: transform, opacity; }
+.pop {
+  position: absolute; z-index: 4; margin: 0; pointer-events: none;
+  font: 400 64px/1 var(--script); color: var(--line);
+  text-shadow: 0 3px 0 var(--deep);
+  animation: popUp .8s cubic-bezier(.2, 1.4, .4, 1) forwards;
+}
+.pop::after { content: ''; position: absolute; left: 50%; top: 100%; width: 90px; height: 26px; margin: 0 0 0 -45px; border: 3px solid var(--line); border-radius: 50%; opacity: 0; animation: ring .6s ease-out forwards; }
+@keyframes popUp { 0% { opacity: 0; transform: translate(-50%, 10px) scale(.4) rotate(var(--r, -8deg)); } 35% { opacity: 1; transform: translate(-50%, -26px) scale(1.15) rotate(var(--r, -8deg)); } 100% { opacity: 0; transform: translate(-50%, -70px) scale(1) rotate(var(--r, -8deg)); } }
+@keyframes ring { 0% { opacity: .9; transform: scale(.3); } 100% { opacity: 0; transform: scale(1.6); } }
+.intro-flash { position: absolute; inset: 0; z-index: 5; background: var(--ball); clip-path: circle(0% at 50% 50%); }
+.intro-flash p { position: absolute; left: 0; right: 0; top: 32%; margin: 0; text-align: center; font: 400 clamp(96px, 30vw, 140px)/.9 var(--script); color: var(--deep); opacity: 0; }
+.intro-skip { position: absolute; right: 14px; top: calc(var(--safe-t) + 14px); z-index: 6; border: 1.5px solid rgba(255, 255, 255, .7); background: transparent; color: var(--line); border-radius: 999px; padding: 6px 16px; font: 600 17px/1.2 var(--text); }
+.intro-hint { position: absolute; bottom: calc(var(--safe-b) + 34px); left: 0; right: 0; margin: 0; text-align: center; color: var(--line); z-index: 6; transition: opacity .3s; }
+.intro-hint b { display: block; font: 400 44px/1.1 var(--script); }
+.intro-hint span { font: italic 500 17px/1.3 var(--text); color: rgba(255, 255, 255, .8); }
+.intro.done { pointer-events: none; animation: introOut .5s ease forwards; }
+@keyframes introOut { to { opacity: 0; visibility: hidden; } }
+
+/* ============================================================ hero: the court, two players */
+.hero { position: relative; padding: calc(var(--safe-t) + 30px) var(--gutter) 40px; color: var(--line); background: var(--court); overflow: hidden; }
+/* court lines: outer box; near half has the service line and centre line */
+.hero::before {
+  content: ''; position: absolute; inset: 14px 12px 12px; border: 3px solid rgba(255, 255, 255, .85); pointer-events: none;
+  background:
+    linear-gradient(rgba(255,255,255,.4), rgba(255,255,255,.4)) 50% 100% / 3px 19% no-repeat,
+    linear-gradient(rgba(255,255,255,.4), rgba(255,255,255,.4)) 50% 81% / 100% 3px no-repeat;
+}
+.hero-for { position: relative; margin: 6px 0 0; font: italic 500 21px/1.2 var(--text); text-align: center; }
+.title { position: relative; margin: 4px 0 0; text-align: center; font: 400 clamp(66px, 20vw, 104px)/.95 var(--script); white-space: nowrap; }
+.title span { display: block; }
+.title .t1 { padding-right: .5em; }
+.title .t2 { padding-left: 1.2em; margin-top: -.05em; }
+.net { position: relative; margin: 18px -32px 0; height: 54px; }
+.net::before { content: ''; position: absolute; left: 0; right: 0; top: 50%; height: 30px; margin-top: -15px;
+  background:
+    linear-gradient(var(--line), var(--line)) top / 100% 4px no-repeat,
+    repeating-linear-gradient(90deg, rgba(11, 42, 107, .55) 0 2px, transparent 2px 9px),
+    repeating-linear-gradient(0deg, rgba(11, 42, 107, .55) 0 2px, transparent 2px 9px);
+}
+.players { position: relative; display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); align-items: start; gap: 14px; margin-top: -86px; }
+.player { position: relative; margin: 0; background: var(--line); color: var(--deep); padding: 8px 8px 10px; border-radius: 10px; box-shadow: 0 18px 30px -16px rgba(6, 22, 60, .7); }
+.player:nth-child(1) { transform: rotate(-4deg) translateY(10px); }
+.player:nth-child(2) { transform: rotate(4deg) translateY(30px); }
+.player img { display: block; width: 100%; aspect-ratio: 4 / 5; object-fit: cover; border-radius: 6px; filter: grayscale(1) contrast(1.05); }
+.player figcaption { padding: 6px 0 0; text-align: center; font: 400 clamp(34px, 10vw, 42px)/1.05 var(--script); }
+.amp { position: absolute; left: 50%; top: 46%; z-index: 2; width: 66px; height: 66px; margin: -33px 0 0 -33px; border: 0; padding: 0; background: none; }
+.amp svg { width: 100%; height: 100%; display: block; filter: drop-shadow(0 6px 8px rgba(6, 22, 60, .45)); }
+.amp span { position: absolute; inset: 0; display: grid; place-items: center; padding-bottom: 4px; font: italic 600 38px/1 var(--text); color: var(--deep); }
+.amp.bounce { animation: hop .6s cubic-bezier(.3, 1.6, .5, 1); }
+@keyframes hop { 30% { transform: translateY(-26px) scale(1.06, .94); } 60% { transform: translateY(0) scale(1.1, .9); } }
+.hero-when { position: relative; margin: 58px 0 0; text-align: center; }
+.hero-when b { display: block; font: 700 28px/1.1 var(--text); }
+.hero-when span { font: italic 500 22px/1.3 var(--text); }
+
+/* ============================================================ a change of plan */
+.note { margin: 0; padding: 36px var(--gutter) 6px; text-align: center; }
+.note h2 { margin: 0; font: 400 50px/1.05 var(--script); color: var(--court); }
+.note p { margin: 10px auto 0; max-width: 30ch; color: var(--ink2); }
+
+/* ============================================================ scoreboard */
+.board-wrap { padding: 32px var(--gutter) 8px; }
+.board { background: var(--deep); color: var(--line); border-radius: 14px; padding: 18px 18px 20px; box-shadow: 0 20px 36px -22px rgba(6, 22, 60, .9); position: relative; }
+.board::before, .board::after { content: ''; position: absolute; top: -12px; width: 10px; height: 14px; background: var(--deep); border-radius: 3px 3px 0 0; }
+.board::before { left: 28px; } .board::after { right: 28px; }
+.board h2 { margin: 0 0 6px; font: 400 40px/1.1 var(--script); color: var(--line); }
+.rows { margin: 0; }
+.rows div { display: grid; grid-template-columns: 6.6em 1fr; align-items: baseline; gap: 10px; padding: 10px 0; border-top: 1px solid rgba(169, 199, 255, .22); }
+.rows dt { font: italic 500 18px/1.2 var(--text); color: var(--sky); }
+.rows dd { margin: 0; font: 700 25px/1.1 var(--text); color: var(--ball); }
+.rows dd small { display: block; margin-top: 3px; font: italic 500 17px/1.3 var(--text); color: rgba(255, 255, 255, .78); }
+.clock { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin-top: 14px; }
+.clock div { background: #071D4D; border-radius: 8px; padding: 8px 4px 8px; text-align: center; }
+.clock b { display: block; font: 700 50px/1 var(--text); color: var(--ball); font-variant-numeric: lining-nums tabular-nums !important; text-shadow: 0 0 12px rgba(223, 242, 74, .35); }
+.clock small { font: italic 500 16px/1 var(--text); color: var(--sky); }
+.clock-cap { margin: 10px 0 0; text-align: center; font: italic 500 17px/1.3 var(--text); color: rgba(255, 255, 255, .75); }
+
+/* ============================================================ sections */
+.section { padding: 46px var(--gutter) 0; }
+.section h2 { margin: 0; font: 400 56px/1 var(--script); color: var(--deep); }
+.section .lede { margin: 6px 0 0; max-width: 32ch; color: var(--ink2); }
+
+/* the morning: a rally down the court, one ball per part */
+.rally { position: relative; list-style: none; margin: 22px 0 0; padding: 0 0 0 46px; }
+.rally::before { content: ''; position: absolute; left: 15px; top: 12px; bottom: 16px; border-left: 3px dashed rgba(47, 111, 224, .45); }
+.rally li { position: relative; padding: 0 0 22px; }
+.rally li:last-child { padding-bottom: 0; }
+.rally svg { position: absolute; left: -46px; top: 1px; width: 32px; height: 32px; }
+.rally time { display: block; font: italic 500 17px/1.3 var(--text); color: var(--court); }
+.rally b { display: block; font: 700 25px/1.15 var(--text); }
+.rally span { display: block; color: var(--ink2); }
+.levels { margin: 22px 0 0; padding: 14px 16px; border-left: 4px solid var(--court); background: var(--line); border-radius: 0 10px 10px 0; }
+
+/* what to wear: a row of pastel balls */
+.crowd { margin: 22px 0 0; padding: 24px 10px 16px; background: var(--line); border-radius: 14px; }
+.crowd-row { display: flex; justify-content: center; align-items: flex-end; flex-wrap: nowrap; gap: 6px; }
+.crowd-row svg { flex: none; width: 44px; height: 44px; animation: wave 2.6s ease-in-out infinite; }
+@keyframes wave { 0%, 60%, 100% { transform: translateY(0); } 70% { transform: translateY(-12px); } 80% { transform: translateY(0) scale(1.08, .92); } 86% { transform: translateY(0); } }
+.crowd p { margin: 14px 0 0; text-align: center; font: italic 500 18px/1.35 var(--text); color: var(--ink2); }
+
+/* ============================================================ RSVP */
+.rsvp { margin: 50px 0 0; padding: 40px var(--gutter) calc(var(--safe-b) + 96px); background: var(--deep); color: var(--line); text-align: center; position: relative; overflow: hidden; }
+.rsvp::before { content: ''; position: absolute; left: 50%; top: -1px; width: 3px; height: 30px; background: rgba(255, 255, 255, .5); }
+.rsvp h2 { margin: 0; font: 400 76px/1 var(--script); color: var(--line); }
+.rsvp > p { margin: 8px auto 0; max-width: 30ch; color: var(--sky); }
+.form { margin: 24px auto 0; max-width: 340px; text-align: left; }
+.form label { display: block; font: italic 500 17px/1.3 var(--text); color: var(--sky); margin: 0 0 6px 4px; }
+.form input { width: 100%; min-height: 54px; border-radius: 12px; border: 2px solid rgba(169, 199, 255, .4); background: #0E3380; color: var(--line); padding: 10px 16px; font: 600 21px/1.2 var(--text); }
+.form input::placeholder { color: rgba(169, 199, 255, .6); font-style: italic; font-weight: 500; }
+.form input:focus { outline: none; border-color: var(--ball); }
+.err { margin: 6px 0 0 4px; font: italic 500 16px/1.3 var(--text); color: #FFC9A8; }
+.choice { display: grid; gap: 12px; margin-top: 16px; }
+.btn:disabled { opacity: .6; }
+.btn { display: flex; align-items: center; justify-content: center; gap: 10px; min-height: 60px; border-radius: 999px; border: 0; font: 700 23px/1 var(--text); }
+.btn-in { background: var(--ball); color: var(--deep); box-shadow: 0 10px 0 -4px #9DB21C; }
+.btn-in:active { transform: translateY(3px); box-shadow: 0 6px 0 -4px #9DB21C; }
+.btn-in svg { width: 26px; height: 26px; }
+.btn-out { background: transparent; color: var(--line); border: 2px solid rgba(255, 255, 255, .5); font-weight: 600; font-size: 21px; }
+.btn-new { background: transparent; color: var(--ball); border: 2px solid var(--ball); }
+.by { margin-top: 16px !important; font-size: 17px; }
+.court-list { margin: 22px auto 0; max-width: 340px; padding: 14px 16px 16px; border-radius: 14px; background: rgba(255, 255, 255, .07); border: 1px solid rgba(169, 199, 255, .25); text-align: left; }
+.cl-head { display: flex; justify-content: space-between; align-items: baseline; gap: 10px; }
+.cl-head b { font: 400 32px/1.1 var(--script); }
+.cl-head span { font: italic 500 16px/1.2 var(--text); color: var(--sky); white-space: nowrap; }
+.cl-names { list-style: none; margin: 10px 0 0; padding: 0; display: flex; flex-wrap: wrap; gap: 8px; }
+.cl-names li { display: inline-flex; align-items: center; gap: 6px; padding: 6px 12px; border-radius: 999px; background: #fff; color: var(--deep); font: 700 17px/1.1 var(--text); }
+.cl-names li.host { background: var(--court); color: var(--line); }
+.cl-names li.me { background: var(--ball); }
+.cl-names li.more { background: transparent; color: var(--line); border: 1.5px dashed rgba(169, 199, 255, .6); font-weight: 600; font-style: italic; }
+.cl-names small { font: italic 500 13px/1 var(--text); padding: 2px 6px; border-radius: 999px; background: var(--deep); color: var(--line); }
+.result { display: none; margin: 26px auto 0; max-width: 340px; }
+.result.show { display: block; animation: passIn .5s ease-out; }
+@keyframes passIn { from { opacity: 0; } }
+.pass { background: var(--line); color: var(--deep); border-radius: 14px; text-align: left; overflow: hidden; }
+.pass-top { background: var(--court); color: var(--line); padding: 12px 18px 10px; display: flex; justify-content: space-between; align-items: center; }
+.pass-top b { font: 400 44px/1 var(--script); }
+.pass-top svg { width: 44px; height: 44px; }
+.pass dl { margin: 0; padding: 14px 18px 16px; display: grid; grid-template-columns: 1fr 1fr; gap: 12px; border-top: 2px dashed var(--sky); }
+.pass dt { font: italic 500 15px/1 var(--text); color: var(--ink2); }
+.pass dd { margin: 4px 0 0; font: 700 21px/1.1 var(--text); overflow-wrap: anywhere; }
+.pass .wide { grid-column: 1 / -1; }
+.directions { display: flex; align-items: center; justify-content: center; gap: 8px; margin: 0 18px 18px; min-height: 52px; border-radius: 999px; background: var(--deep); color: var(--line); text-decoration: none; font: 700 20px/1 var(--text); }
+.bye { margin: 0; padding: 22px 18px; background: rgba(255, 255, 255, .08); border-radius: 14px; }
+.bye b { display: block; font: 400 44px/1.1 var(--script); }
+.bye span { color: var(--sky); }
+.again { margin: 12px 0 0; background: none; border: 0; color: var(--sky); text-decoration: underline; font: italic 500 17px/1.3 var(--text); }
+.sign { margin: 34px 0 0; font: 400 40px/1.2 var(--script); color: var(--line); }
+.preview-note { margin: 14px auto 0 !important; font-size: 15px !important; color: rgba(255, 255, 255, .55) !important; }
+
+/* ============================================================ music: plays from the first tap; this only mutes */
+.mute { position: fixed; right: max(14px, calc(50% - 260px + 14px)); bottom: calc(var(--safe-b) + 14px); z-index: 40; width: 46px; height: 46px; padding: 0; border-radius: 50%; border: 2px solid var(--line); background: var(--deep); color: var(--line); display: grid; place-items: center; box-shadow: 0 10px 20px -10px rgba(6, 22, 60, .8); }
+.mute svg { width: 22px; height: 22px; }
+.mute .off { display: none; }
+.mute[aria-pressed="true"] .on { display: none; }
+.mute[aria-pressed="true"] .off { display: block; }
+@keyframes eq { 50% { height: 14px; } }
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation-duration: .01ms !important; animation-iteration-count: 1 !important; transition-duration: .01ms !important; }
+}
+</style>
+<script src="config.js?v=padel1"></script>
 </head>
-<body class="is-sealed is-loading">
+<body>
 
-<!-- ================================================= the envelope -->
-<section class="opening" data-opening aria-label="Your invitation envelope">
-  <div class="env-wrap">
-    <div class="env" data-env>
-      <div class="env-back" aria-hidden="true">
-        <div class="env-card">
-          <span class="ec-kicker">Please join us to celebrate</span>
-          <span class="ec-script" data-slot="ec-title"></span>
-        </div>
-        <svg class="env-pocket" viewBox="0 0 160 100" preserveAspectRatio="none">
-          <path d="M0 0L80 58L160 0V100H0Z" fill="#6B1824"/>
-          <path d="M0 100L80 50L160 100Z" fill="#7A1F2B"/>
-          <path d="M0 0L80 58L160 0M0 100L80 50L160 100" fill="none" stroke="#3B0C13" stroke-opacity=".35" stroke-width=".6"/>
-        </svg>
-        <div class="env-flap"><svg viewBox="0 0 160 64" preserveAspectRatio="none"><path d="M0 0H160L80 64Z" fill="#82222F"/><path d="M0 0L80 64L160 0" fill="none" stroke="#3B0C13" stroke-opacity=".3" stroke-width=".6"/></svg></div>
-        <span class="env-seal" data-art="seal"></span>
-      </div>
-      <div class="env-front">
-        <span class="stamp st-1" data-art="stamp-rose"></span>
-        <span class="stamp st-2" data-art="stamp-heart"></span>
-        <p class="env-script" data-slot="env-script">you are invited</p>
-        <p class="env-date" data-slot="env-date"></p>
-        <p class="env-to" data-slot="env-to"></p>
-      </div>
+<audio id="song" loop preload="none" src="song.mp3"></audio>
+
+<!-- ============================ THE SERVE -->
+<div class="intro" id="intro" role="button" tabindex="0" aria-label="Tap to serve and open the invitation">
+  <svg class="intro-court" viewBox="0 0 390 844" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
+    <defs><linearGradient id="ig" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#245FCC"/><stop offset="1" stop-color="#2F6FE0"/></linearGradient></defs>
+    <rect width="390" height="844" fill="url(#ig)"/>
+    <g fill="none" stroke="#fff" stroke-width="3" stroke-linejoin="round" opacity=".9">
+      <path d="M120 150H270L380 900H10Z"/>
+      <path d="M95 320H295M48 640H342"/>
+      <path d="M195 150V320M195 640V900"/>
+    </g>
+    <path d="M72 470H318" stroke="#0B2A6B" stroke-width="18" opacity=".55"/>
+    <path d="M72 461H318" stroke="#fff" stroke-width="4"/>
+  </svg>
+  <div class="intro-shadow" id="shadow"></div>
+  <div class="intro-ball" id="ball"><svg viewBox="-32 -32 64 64" aria-hidden="true"><use href="#ballSym" x="-32" y="-32" width="64" height="64"/></svg></div>
+  <div class="intro-flash" id="flash"><p>Game<br>on!</p></div>
+  <button class="intro-skip" type="button" id="skip">Skip</button>
+  <p class="intro-hint" id="hint"><b>Tap to serve</b><span>tap anywhere, sound on</span></p>
+</div>
+
+<div class="page">
+  <!-- ============================ HERO -->
+  <header class="hero">
+    <p class="hero-for">Asher &amp; Asherbell’s 27th birthday</p>
+    <h1 class="title"><span class="t1">Two of a</span><span class="t2">Kind</span></h1>
+    <div class="net" aria-hidden="true"></div>
+    <div class="players">
+      <figure class="player"><img src="photos/photo-1.jpg" alt="Asher"><figcaption>Asher</figcaption></figure>
+      <figure class="player"><img src="photos/photo-2.jpg" alt="Asherbell"><figcaption>Asherbell</figcaption></figure>
+      <button class="amp" type="button" id="amp" aria-label="Bounce the ball"><svg viewBox="-32 -32 64 64" aria-hidden="true"><use href="#ballSym" x="-32" y="-32" width="64" height="64"/></svg><span>&amp;</span></button>
     </div>
-    <span class="op-cherries" data-art="cherries" aria-hidden="true"></span>
-  </div>
-  <button class="op-open" type="button" data-open>Open envelope</button>
-  <p class="op-note" data-op-note hidden></p>
-</section>
+    <p class="hero-when"><b>Saturday 21 November</b></p>
+  </header>
 
-<!-- ================================================= the stationery -->
-<main class="canvas" data-canvas aria-label="Invitation">
+  <!-- ============================ A CHANGE OF PLAN -->
+  <section class="note" aria-labelledby="note-h">
+    <h2 id="note-h">New plan</h2>
+    <p>We’ve swapped a weekend indoors for a morning on the court. This one’s on us, so there’s nothing to contribute. Just bring yourself and a cute fit.</p>
+  </section>
 
-  <div class="hero">
-    <div class="collage">
-      <div class="liner" aria-hidden="true"></div>
-      <button class="deco two-card" type="button" data-px="18" data-two aria-label="Flip the two of hearts">
-        <span class="tc-inner"><span class="tc-face tc-front" data-art="two"></span><span class="tc-face tc-back" data-art="cardback"></span></span>
-      </button>
-      <span class="deco spark-a" data-px="-14" data-art="sparkles"></span>
-      <figure class="polaroid pol-a" data-polaroid="0"></figure>
-      <figure class="polaroid pol-b" data-polaroid="1"></figure>
-      <div class="amp editable" data-amp data-edit="amp" role="img" aria-label="and"><span class="amp-ch" data-amp-ch data-px="-10">&amp;</span><span class="amp-handle" aria-hidden="true"></span></div>
-      <p class="liner-script editable" data-edit="liner" data-text="linerScript"></p>
-    </div>
-    <div class="card-row">
-      <figure class="polaroid pol-c" data-polaroid="2"></figure>
-      <article class="invite-card editable" data-edit="card">
-        <button class="kiss kiss-a" type="button" data-kiss aria-label="Send a kiss"><span data-art="kiss"></span></button>
-        <p class="ic-kicker" data-text="kicker"></p>
-        <h1 class="ic-title" data-slot="title"></h1>
-        <p class="ic-tag" data-slot="tagline"></p>
-        <span class="ic-rule" aria-hidden="true"></span>
-        <p class="ic-names" data-slot="names"></p>
-        <p class="ic-date" data-slot="ldate"></p>
-        <button class="kiss kiss-b" type="button" data-kiss aria-label="Send a kiss"><span data-art="kiss"></span></button>
-      </article>
-      <p class="tape editable" data-edit="tape" data-slot="tape"></p>
-    </div>
-  </div>
-
-  <div class="details">
-    <article class="details-card land editable" data-land="rise" data-edit="details">
-      <h2 class="dc-title"><span class="dc-the">The</span><span class="dc-script">Details</span></h2>
-      <dl class="dc-list">
-        <div><dt>Date</dt><dd data-slot="d-date"></dd></div>
-        <div><dt>Time</dt><dd data-slot="d-time"></dd></div>
-        <div><dt>Venue</dt><dd data-slot="d-venue"></dd></div>
-        <div><dt>Location</dt><dd data-slot="d-location"></dd></div>
-        <div><dt>RSVP by</dt><dd data-slot="d-deadline"></dd></div>
+  <!-- ============================ SCOREBOARD -->
+  <section class="board-wrap" aria-label="The details">
+    <div class="board">
+      <h2>The details</h2>
+      <dl class="rows">
+        <div><dt>Match day</dt><dd>Saturday 21 Nov</dd></div>
+        <div><dt>First serve</dt><dd>10:00 AM</dd></div>
+        <div><dt>Last ball</dt><dd>1:00 PM</dd></div>
+        <div><dt>Court</dt><dd>Padel X, Bugolobi<small>3 Plantation Road</small></dd></div>
+        <div><dt>Reply by</dt><dd>Saturday 14 Nov</dd></div>
       </dl>
-      <span class="dc-candles" data-art="candles" aria-hidden="true"></span>
-    </article>
-
-    <button class="mini mini-byob land editable" type="button" data-land="stamp" data-flip data-edit="byob" aria-label="Contribution card, tap to turn over">
-      <span class="flip">
-        <span class="face front">
-          <svg class="mini-ico" viewBox="0 0 44 32" aria-hidden="true"><rect x="2" y="3" width="40" height="27" rx="2" fill="none" stroke="#3B0C13" stroke-width="1.6"/><path d="M3 4L22 18L41 4" fill="none" stroke="#3B0C13" stroke-width="1.6" stroke-linejoin="round"/><path d="M22 27C17 23.5 15.5 21 17 19.2C18.4 17.6 20.6 18.2 22 20C23.4 18.2 25.6 17.6 27 19.2C28.5 21 27 23.5 22 27Z" fill="#8C2B35"/></svg>
-          <span class="m-title" data-text="byobTitle"></span>
-          <span class="m-text" data-text="byobText"></span>
-        </span>
-        <span class="face back"><span class="m-back" data-text="byobBack"></span></span>
-      </span>
-    </button>
-
-    <button class="mini mini-games land editable" type="button" data-land="right" data-flip data-edit="games" aria-label="Games card, tap to turn over">
-      <span class="flip">
-        <span class="face front">
-          <svg class="mini-ico" viewBox="0 0 60 44" aria-hidden="true"><g class="die-a" transform="rotate(-12 18 24)"><rect x="4" y="10" width="26" height="26" rx="6" fill="#FFF9EE" stroke="#3B0C13" stroke-width="1.4"/><circle cx="11" cy="17" r="2.2" fill="#3B0C13"/><circle cx="17" cy="23" r="2.2" fill="#3B0C13"/><circle cx="23" cy="29" r="2.2" fill="#3B0C13"/></g><g class="die-b" transform="rotate(10 44 22)"><rect x="31" y="8" width="24" height="24" rx="6" fill="#3B0C13"/><circle cx="38" cy="15" r="2.1" fill="#F5E3B5"/><circle cx="48" cy="25" r="2.1" fill="#F5E3B5"/></g></svg>
-          <span class="m-title" data-text="gamesTitle"></span>
-          <span class="m-text" data-text="gamesText"></span>
-        </span>
-        <span class="face back"><span class="m-back" data-text="gamesBack"></span></span>
-      </span>
-    </button>
-
-    <button class="mini mini-comfy land editable" type="button" data-land="left" data-flip data-edit="comfy" aria-label="Dress code card, tap to turn over">
-      <span class="flip">
-        <span class="face front">
-          <span class="m-title" data-text="comfyTitle"></span>
-          <span class="m-text" data-text="comfyText"></span>
-          <svg class="mini-ico" viewBox="0 0 60 40" aria-hidden="true"><path d="M4 30Q30 22 56 10" fill="none" stroke="#636B2F" stroke-width="1.4"/><g fill="#636B2F"><path d="M16 27C12 20 14 14 20 12C21 18 20 23 16 27Z"/><path d="M28 23C26 16 29 10 35 9C35 15 33 20 28 23Z"/><path d="M40 18C39 12 42 7 48 6C47 11 45 16 40 18Z"/></g><g fill="#8E9650"><path d="M18 27C24 31 30 30 33 26C27 24 22 24 18 27Z"/><path d="M31 22C37 25 42 23 44 19C39 18 34 18 31 22Z"/></g></svg>
-        </span>
-        <span class="face back"><span class="m-back" data-text="comfyBack"></span></span>
-      </span>
-    </button>
-  </div>
-
-  <div class="reply">
-    <figure class="polaroid pol-d land" data-land="drop" data-polaroid="3"></figure>
-    <button class="rsvp-card land" type="button" data-land="rise" data-rsvp-card>
-      <span class="rc-cherries" data-art="cherries" aria-hidden="true"></span>
-      <span class="rc-spark" data-art="sparkles" aria-hidden="true"></span>
-      <span class="rc-top" data-rc="top">Kindly</span>
-      <span class="rc-script" data-rc="script">Rsvp</span>
-      <span class="rc-bottom" data-rc="bottom">here</span>
-      <span class="rc-note" data-rc="note"></span>
-    </button>
-    <div class="kisses land" data-land="stamp">
-      <button class="kiss kiss-c" type="button" data-kiss aria-label="Send a kiss"><span data-art="kiss-dark"></span></button>
-      <button class="kiss kiss-d" type="button" data-kiss aria-label="Send a kiss"><span data-art="kiss"></span></button>
-    </div>
-    <p class="signoff land editable" data-land="rise" data-edit="signoff" data-slot="signoff"></p>
-  </div>
-</main>
-
-<!-- host editing -->
-<button class="edit-toggle" type="button" data-edit-toggle hidden>✎ Edit</button>
-<div class="edit-bar" data-edit-bar hidden>
-  <span>Editing · tap anything marked ✎</span>
-  <button type="button" data-edit-done>Done</button>
-</div>
-<div class="sheet" data-editor hidden>
-  <form class="sheet-card editor" role="dialog" aria-modal="true" aria-labelledby="editor-title" data-editor-form novalidate>
-    <span class="sheet-handle" aria-hidden="true"></span>
-    <button class="sheet-x" type="button" data-close-editor aria-label="Close">×</button>
-    <p class="sh-kicker">Edit</p>
-    <h2 class="sh-title sh-title--sm" id="editor-title" data-editor-title></h2>
-    <div class="ed-photo" data-ed-photo hidden>
-      <div class="ed-thumb" data-ed-thumb></div>
-      <div class="ed-photo-actions">
-        <label class="btn btn--wine btn--sm ed-file">Choose photo<input type="file" accept="image/*" data-ed-file></label>
-        <button class="btn btn--line btn--sm" type="button" data-ed-reset>Use illustration</button>
+      <div class="clock" id="clock">
+        <div><b data-d>00</b><small>days</small></div>
+        <div><b data-h>00</b><small>hours</small></div>
+        <div><b data-m>00</b><small>minutes</small></div>
       </div>
+      <p class="clock-cap">until first serve</p>
     </div>
-    <div data-ed-fields></div>
-    <p class="ed-note" data-ed-note hidden></p>
-    <div class="form-error" data-ed-error role="alert" hidden></div>
-    <button class="btn btn--wine btn--lg btn--block" type="submit" data-ed-save>Save</button>
-  </form>
+  </section>
+
+  <!-- ============================ THE MORNING -->
+  <section class="section" aria-labelledby="day-h">
+    <h2 id="day-h">The morning</h2>
+    <p class="lede">No scores, no pressure, just fun and games.</p>
+    <ol class="rally">
+      <li><svg viewBox="-32 -32 64 64" aria-hidden="true"><use href="#ballSym" x="-32" y="-32" width="64" height="64"/></svg><time>10:00 AM</time><b>First serve</b><span>Warm-up rallies and good music</span></li>
+      <li><svg viewBox="-32 -32 64 64" aria-hidden="true"><use href="#ballSym" x="-32" y="-32" width="64" height="64"/></svg><b>Fun &amp; games</b><span>Mixed-up doubles, mini games and silly challenges</span></li>
+      <li><svg viewBox="-32 -32 64 64" aria-hidden="true"><use href="#ballSym" x="-32" y="-32" width="64" height="64"/></svg><b>Cake &amp; cheers</b><span>Singing badly is encouraged</span></li>
+      <li><svg viewBox="-32 -32 64 64" aria-hidden="true"><use href="#ballSym" x="-32" y="-32" width="64" height="64"/></svg><time>1:00 PM</time><b>Last ball</b><span>Hugs, photos, and see you soon</span></li>
+    </ol>
+    <p class="levels">Never held a racket? Perfect. We’ll show you, and rackets are there to borrow.</p>
+  </section>
+
+  <!-- ============================ DRESS CODE -->
+  <section class="section" aria-labelledby="dress-h">
+    <h2 id="dress-h">What to wear</h2>
+    <p class="lede">Pastels, in any shade and any mix. Sporty, fun and cute: think padel-court cute, not gym-day sporty. Comfy trainers so you can run for the ball.</p>
+    <div class="crowd">
+      <div class="crowd-row" aria-hidden="true">
+        <svg viewBox="-32 -32 64 64" style="animation-delay:0.00s"><use href="#colourBall" x="-32" y="-32" width="64" height="64" style="--c:#F6BFD0"/></svg>
+        <svg viewBox="-32 -32 64 64" style="animation-delay:0.15s"><use href="#colourBall" x="-32" y="-32" width="64" height="64" style="--c:#FFD2B3"/></svg>
+        <svg viewBox="-32 -32 64 64" style="animation-delay:0.30s"><use href="#colourBall" x="-32" y="-32" width="64" height="64" style="--c:#FFF0A6"/></svg>
+        <svg viewBox="-32 -32 64 64" style="animation-delay:0.45s"><use href="#colourBall" x="-32" y="-32" width="64" height="64" style="--c:#BFEBD3"/></svg>
+        <svg viewBox="-32 -32 64 64" style="animation-delay:0.60s"><use href="#colourBall" x="-32" y="-32" width="64" height="64" style="--c:#BCD8FF"/></svg>
+        <svg viewBox="-32 -32 64 64" style="animation-delay:0.75s"><use href="#colourBall" x="-32" y="-32" width="64" height="64" style="--c:#D7C9F6"/></svg>
+        <svg viewBox="-32 -32 64 64" style="animation-delay:0.90s"><use href="#colourBall" x="-32" y="-32" width="64" height="64" style="--c:#F9C9E6"/></svg>
+      </div>
+      <p>Blush, peach, butter, mint, baby blue, lilac: pick one, or wear them all.</p>
+    </div>
+  </section>
+
+  <!-- ============================ RSVP -->
+  <section class="rsvp" aria-labelledby="rsvp-h">
+    <h2 id="rsvp-h">Are you in?</h2>
+    <p>Said yes to the first plan? Say it again. Weren’t on the first invite? You’re on this one, so come and play.</p>
+    <div class="court-list" aria-live="polite">
+      <div class="cl-head"><b>On the court list</b><span data-count>2 players so far</span></div>
+      <ul class="cl-names" data-names><li class="host">Asher</li><li class="host">Asherbell</li></ul>
+    </div>
+    <form class="form" id="form" novalidate>
+      <label for="name">Your name</label>
+      <input id="name" name="name" autocomplete="name" placeholder="So we can find you on the list">
+      <p class="err" id="err" role="alert" hidden>Add your name first, then pick one.</p>
+      <div class="choice">
+        <button class="btn btn-in" type="submit" value="again"><svg viewBox="-32 -32 64 64" aria-hidden="true"><use href="#ballSym" x="-32" y="-32" width="64" height="64"/></svg>Count me in, again</button>
+        <button class="btn btn-new" type="submit" value="new">Count me in, first time</button>
+        <button class="btn btn-out" type="submit" value="out">I can’t make this one</button>
+      </div>
+      <p class="by" style="text-align:center;color:var(--sky)">“Again” if you said yes to the first plan. Reply by Saturday 14 November.</p>
+    </form>
+    <div class="result" id="yes" aria-live="polite">
+      <div class="pass">
+        <div class="pass-top"><b data-pass-title>You’re in, twice</b><svg viewBox="-32 -32 64 64" aria-hidden="true"><use href="#ballSym" x="-32" y="-32" width="64" height="64"/></svg></div>
+        <dl>
+          <div class="wide"><dt>Player</dt><dd data-guest>You</dd></div>
+          <div><dt>Match day</dt><dd>Sat 21 Nov</dd></div>
+          <div><dt>Time</dt><dd>10 AM to 1 PM</dd></div>
+          <div class="wide"><dt>Court</dt><dd>Padel X, 3 Plantation Road, Bugolobi</dd></div>
+        </dl>
+        <a class="directions" href="https://www.google.com/maps/search/?api=1&amp;query=Padel%20X%2C%203%20Plantation%20Road%2C%20Bugolobi%2C%20Kampala" target="_blank" rel="noopener">Get directions</a>
+      </div>
+      <button class="again" type="button" data-again>Change my reply</button>
+    </div>
+    <div class="result" id="no" aria-live="polite">
+      <p class="bye"><b>We’ll miss you</b><span>Thanks for letting us know. Next round’s on you.</span></p>
+      <button class="again" type="button" data-again>Change my reply</button>
+    </div>
+    <p class="sign">with love, Asher &amp; Asherbell</p>
+    
+  </section>
 </div>
 
-<button class="fab" type="button" data-fab>Kindly RSVP</button>
-<button class="music" type="button" data-music aria-label="Play music" aria-pressed="false" hidden>
-  <svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><path d="M9 18V6l10-2v12" fill="none" stroke="currentColor" stroke-width="1.8"/><circle cx="6.5" cy="18" r="2.5" fill="currentColor"/><circle cx="16.5" cy="16" r="2.5" fill="currentColor"/></svg>
+<button class="mute" type="button" id="mute" aria-pressed="false" aria-label="Mute music" hidden>
+  <svg class="on" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 9v6h4l5 4V5L8 9H4z" fill="currentColor"/><path d="M16.5 8.5a5 5 0 0 1 0 7M19 6a8.5 8.5 0 0 1 0 12"/></svg>
+  <svg class="off" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 9v6h4l5 4V5L8 9H4z" fill="currentColor"/><path d="M17 9l5 6M22 9l-5 6"/></svg>
 </button>
-<audio data-audio preload="none" loop></audio>
-<div class="toast" data-toast role="status" aria-live="polite"></div>
 
-<!-- ================================================= RSVP sheet -->
-<div class="sheet" data-sheet hidden>
-  <div class="sheet-card" role="dialog" aria-modal="true" aria-label="RSVP">
-    <span class="sheet-handle" aria-hidden="true"></span>
-    <button class="sheet-x" type="button" data-close-sheet aria-label="Close">×</button>
-    <div class="rsvp" data-rsvp data-view="choose">
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <defs>
+    <radialGradient id="bgs" cx=".35" cy=".3" r=".8"><stop offset="0" stop-color="#F6FF9C"/><stop offset=".6" stop-color="#DFF24A"/><stop offset="1" stop-color="#AFC522"/></radialGradient>
+    <radialGradient id="shine" cx=".35" cy=".3" r=".8"><stop offset="0" stop-color="#fff" stop-opacity=".45"/><stop offset=".6" stop-color="#fff" stop-opacity="0"/><stop offset="1" stop-color="#000" stop-opacity=".18"/></radialGradient>
+    <clipPath id="bcs"><circle r="30"/></clipPath>
+    <symbol id="ballSym" viewBox="-32 -32 64 64" overflow="visible"><circle r="30" fill="url(#bgs)"/><g clip-path="url(#bcs)" fill="none" stroke="#fff" stroke-width="4" stroke-linecap="round"><path d="M-24 -22Q-4 0 -24 22"/><path d="M24 -22Q4 0 24 22"/></g></symbol>
+    <symbol id="greyBall" viewBox="-32 -32 64 64" overflow="visible"><circle r="30" style="fill:var(--c)"/><circle r="30" fill="url(#shine)"/><g clip-path="url(#bcs)" fill="none" stroke="#fff" stroke-opacity=".55" stroke-width="4" stroke-linecap="round"><path d="M-24 -22Q-4 0 -24 22"/><path d="M24 -22Q4 0 24 22"/></g></symbol>
+    <symbol id="colourBall" viewBox="-32 -32 64 64" overflow="visible"><circle r="30" style="fill:var(--c)"/><circle r="30" fill="url(#shine)"/><g clip-path="url(#bcs)" fill="none" stroke="#fff" stroke-width="4" stroke-linecap="round"><path d="M-24 -22Q-4 0 -24 22"/><path d="M24 -22Q4 0 24 22"/></g></symbol>
+  </defs>
+</svg>
 
-      <div class="rsvp-pane" data-pane="choose">
-        <p class="sh-kicker">Kindly reply</p>
-        <h2 class="sh-title">So… are you in?</h2>
-        <p class="sh-sub">Good times are better with good company.</p>
-        <p class="rsvp-current" data-current hidden></p>
-        <div class="choice">
-          <button class="btn btn--wine btn--lg" type="button" data-choice="yes"><span aria-hidden="true">💖</span> Count me in!</button>
-          <button class="btn btn--line btn--lg" type="button" data-choice="no"><span aria-hidden="true">🥹</span> Can’t make it</button>
-        </div>
-        <p class="rsvp-by" data-slot="rsvp-by"></p>
-      </div>
+<script>
+(function () {
+  'use strict';
+  var reduced = window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var intro = document.getElementById('intro');
+  var ball = document.getElementById('ball');
+  var shadow = document.getElementById('shadow');
+  var flash = document.getElementById('flash');
+  var song = document.getElementById('song');
+  var muteBtn = document.getElementById('mute');
+  var started = false, finished = false, timers = [];
 
-      <form class="rsvp-pane form" data-pane="yes" novalidate>
-        <button class="back" type="button" data-back>← Change my answer</button>
-        <h2 class="sh-title sh-title--sm">Yay! Let’s get you on the list. <span aria-hidden="true">💖</span></h2>
-        <div class="form-error" data-form-error role="alert" hidden></div>
-        <label class="field">
-          <span class="lbl">Full name</span>
-          <input name="name" autocomplete="name" autocapitalize="words" maxlength="80" required>
-          <span class="err" data-err="name"></span>
-        </label>
-        <div class="field" data-party hidden>
-          <span class="lbl">How many of you? <small data-party-hint></small></span>
-          <div class="stepper">
-            <button type="button" data-step="-1" aria-label="One fewer">−</button>
-            <output name="partySize" data-party-out>1</output>
-            <button type="button" data-step="1" aria-label="One more">+</button>
-          </div>
-          <span class="err" data-err="partySize"></span>
-        </div>
-        <fieldset class="field">
-          <legend class="lbl">Bringing a game? <span aria-hidden="true">🎲</span></legend>
-          <div class="chips">
-            <label class="chip"><input type="radio" name="bringingGame" value="yes"><span>Yes!</span></label>
-            <label class="chip"><input type="radio" name="bringingGame" value="no" checked><span>Not this time</span></label>
-          </div>
-          <input name="game" class="game-input" placeholder="Which one? (optional)" maxlength="60" hidden>
-        </fieldset>
-        <div class="field note-field">
-          <button type="button" class="linkish" data-note-toggle>+ Add a note for the hosts</button>
-          <textarea name="message" rows="2" maxlength="280" placeholder="Anything we should know?" hidden></textarea>
-        </div>
-        <button class="btn btn--wine btn--lg btn--block" type="submit" data-submit>Confirm my RSVP <span aria-hidden="true">✨</span></button>
-      </form>
+  // ---------------------------------------------------------------- music
+  // Starts on the tap that opens the invitation (phones only allow sound after a tap).
+  function playMusic() {
+    if (!song.getAttribute('src')) return;
+    song.volume = 0.6;
+    var p = song.play();
+    if (p && p.catch) p.catch(function () { /* the mute button can start it again */ });
+  }
+  function setMuted(m) {
+    song.muted = m;
+    muteBtn.setAttribute('aria-pressed', m ? 'true' : 'false');
+    muteBtn.setAttribute('aria-label', m ? 'Unmute music' : 'Mute music');
+  }
+  muteBtn.addEventListener('click', function () {
+    if (song.paused) { setMuted(false); playMusic(); return; }
+    setMuted(!song.muted);
+  });
 
-      <form class="rsvp-pane form" data-pane="no" novalidate>
-        <button class="back" type="button" data-back>← Change my answer</button>
-        <h2 class="sh-title sh-title--sm">We’ll save you a toast. <span aria-hidden="true">🥂</span></h2>
-        <div class="form-error" data-form-error role="alert" hidden></div>
-        <label class="field">
-          <span class="lbl">Your name</span>
-          <input name="name" autocomplete="name" autocapitalize="words" maxlength="80" required>
-          <span class="err" data-err="name"></span>
-        </label>
-        <div class="field note-field">
-          <button type="button" class="linkish" data-note-toggle>+ Leave a little note</button>
-          <textarea name="message" rows="2" maxlength="280" placeholder="Optional" hidden></textarea>
-        </div>
-        <button class="btn btn--wine btn--lg btn--block" type="submit" data-submit>Send my regrets</button>
-      </form>
+  // ---------------------------------------------------------------- the serve
+  function finish() {
+    if (finished) return;
+    finished = true;
+    timers.forEach(clearTimeout);
+    intro.classList.add('done');
+    setTimeout(function () { intro.hidden = true; }, 520);
+    document.body.style.overflow = '';
+    if (song.getAttribute('src')) muteBtn.hidden = false;
+  }
+  document.getElementById('skip').addEventListener('click', function (e) { e.stopPropagation(); playMusic(); finish(); });
+  document.body.style.overflow = 'hidden';
 
-      <div class="rsvp-pane done" data-pane="done-yes" tabindex="-1">
-        <div class="petals" data-petals aria-hidden="true"></div>
-        <h2 class="done-title">You’re on the list! <span aria-hidden="true">✨</span></h2>
-        <p class="sh-sub">Can’t wait to see you there!</p>
-        <form class="extras" data-extras novalidate hidden>
-          <p class="extras-kicker">One more thing… <small>(optional)</small></p>
-          <fieldset class="field">
-            <legend class="lbl">What will you be drinking? <small>(helps us shop)</small></legend>
-            <div class="chips">
-              <label class="chip"><input type="checkbox" name="drinks" value="Wine"><span>Wine 🍷</span></label>
-              <label class="chip"><input type="checkbox" name="drinks" value="Beer"><span>Beer 🍺</span></label>
-              <label class="chip"><input type="checkbox" name="drinks" value="Spirits"><span>Spirits 🥃</span></label>
-              <label class="chip"><input type="checkbox" name="drinks" value="Cocktails"><span>Cocktails 🍸</span></label>
-              <label class="chip"><input type="checkbox" name="drinks" value="Soft drinks"><span>Soft drinks 🧃</span></label>
-            </div>
-            <input name="drinkNote" class="game-input" placeholder="Anything specific? e.g. red wine, Nile" maxlength="60">
-          </fieldset>
-          <label class="field">
-            <span class="lbl">Any food allergies?</span>
-            <input name="allergies" maxlength="120" placeholder="e.g. nuts, shellfish">
-          </label>
-          <div class="form-error" data-extras-error role="alert" hidden></div>
-          <button class="btn btn--wine btn--block" type="submit" data-extras-save>Save</button>
-        </form>
-        <div class="extras extras--done" data-extras-done hidden>
-          <p><b>Noted, thank you ✨</b><br><span data-extras-summary></span></p>
-          <button class="linkish" type="button" data-extras-edit>Change</button>
-        </div>
-        <article class="pass" aria-label="Your guest pass">
-          <span class="pass-stamp" data-art="stamp-cherries" aria-hidden="true"></span>
-          <p class="pass-kicker">Official guest pass</p>
-          <h3 class="pass-title" data-slot="p-event"></h3>
-          <div class="pass-perf" aria-hidden="true"></div>
-          <dl class="pass-grid">
-            <div class="full"><dt>Guest</dt><dd data-slot="p-guest"></dd></div>
-            <div><dt>Status</dt><dd class="ok">Confirmed ✓</dd></div>
-            <div><dt data-slot="p-party-lbl">Party</dt><dd data-slot="p-party"></dd></div>
-            <div><dt>Date</dt><dd data-slot="p-date"></dd></div>
-            <div><dt>Time</dt><dd data-slot="p-time"></dd></div>
-            <div class="full"><dt>Location</dt><dd data-slot="p-location"></dd></div>
-          </dl>
-        </article>
-        <div class="countdown" data-countdown></div>
-        <div class="pass-actions">
-          <button class="btn btn--wine" type="button" data-save-pass>Save my pass</button>
-          <button class="btn btn--line" type="button" data-cal-toggle aria-expanded="false">Add to calendar</button>
-          <button class="btn btn--line" type="button" data-directions>Get directions</button>
-          <button class="btn btn--line" type="button" data-update>Update my RSVP</button>
-        </div>
-        <div class="cal-menu" data-cal-menu hidden>
-          <a data-cal="google" target="_blank" rel="noopener">Google Calendar</a>
-          <a data-cal="ics">Apple / Outlook</a>
-        </div>
-        <div class="mylink" data-mylink hidden>
-          <p>Your personal link: check the details or change your RSVP any time. This page also remembers you on this phone.</p>
-          <div class="mylink-row"><input readonly data-mylink-input aria-label="Your personal link"><button type="button" class="btn btn--wine btn--sm" data-copy-link>Copy</button></div>
-          <a class="btn btn--line btn--sm mylink-wa" data-mylink-wa target="_blank" rel="noopener">Send it to myself on WhatsApp</a>
-        </div>
-      </div>
+  function t(x, y, s, sx, sy) { return 'translate(' + x.toFixed(1) + 'px,' + y.toFixed(1) + 'px) scale(' + (s * sx).toFixed(3) + ',' + (s * sy).toFixed(3) + ')'; }
+  var W = innerWidth, H = innerHeight;
+  var start = { x: W * 0.62, y: H * 0.13, s: 0.6 };
+  ball.style.transform = t(start.x, start.y, start.s, 1, 1);
+  ball.classList.add('waiting');
 
-      <div class="rsvp-pane done" data-pane="done-no" tabindex="-1">
-        <h2 class="done-title">We’ll miss you! <span aria-hidden="true">💕</span></h2>
-        <p class="sh-sub">Thanks for letting us know!</p>
-        <button class="btn btn--line" type="button" data-update>Changed your mind? Update my RSVP</button>
-      </div>
+  function pop(x, y, text, rot) {
+    var p = document.createElement('p');
+    p.className = 'pop';
+    p.textContent = text;
+    p.style.left = x + 'px'; p.style.top = (y - 70) + 'px';
+    p.style.setProperty('--r', rot + 'deg');
+    intro.appendChild(p);
+    setTimeout(function () { p.remove(); }, 900);
+    if (navigator.vibrate) try { navigator.vibrate(12); } catch (x) { /* ignore */ }
+  }
 
-      <div class="rsvp-pane done" data-pane="closed">
-        <h2 class="done-title">RSVPs are closed</h2>
-        <p class="sh-sub" data-slot="closed-msg"></p>
-      </div>
-    </div>
-  </div>
-</div>
+  // Three bounces down the court towards you, each closer and bigger, then the ball fills the screen.
+  function serve() {
+    if (started) return;
+    started = true;
+    ball.classList.remove('waiting');
+    document.getElementById('hint').style.opacity = '0';
+    var land = [
+      { x: W * 0.30, y: H * 0.36, s: 0.55 },
+      { x: W * 0.68, y: H * 0.55, s: 0.85 },
+      { x: W * 0.38, y: H * 0.76, s: 1.25 },
+    ];
+    var heights = [H * 0.06, H * 0.20, H * 0.16];
+    var segs = [0.22, 0.24, 0.22];
+    var frames = [{ offset: 0, transform: t(start.x, start.y, start.s, 1, 1), easing: 'cubic-bezier(0,.4,.5,1)' }];
+    var at = 0, times = [];
+    land.forEach(function (p, i) {
+      var prev = i === 0 ? start : land[i - 1];
+      var midT = at + segs[i] * 0.45;
+      frames.push({ offset: midT, transform: t((prev.x + p.x) / 2, Math.min(prev.y, p.y) - heights[i], (prev.s + p.s) / 2, 1, 1), easing: 'cubic-bezier(.5,0,1,.6)' });
+      at += segs[i];
+      frames.push({ offset: at - 0.012, transform: t(p.x, p.y, p.s, 1, 1), easing: 'linear' });
+      frames.push({ offset: at, transform: t(p.x, p.y + 6 * p.s, p.s, 1.28, 0.72), easing: 'cubic-bezier(0,.4,.5,1)' });
+      times.push(at);
+      at += 0.02;
+      frames.push({ offset: at, transform: t(p.x, p.y, p.s, 0.92, 1.08), easing: 'cubic-bezier(0,.4,.5,1)' });
+    });
+    frames.push({ offset: 0.9, transform: t(W * 0.5, H * 0.46, 3.2, 1, 1), easing: 'cubic-bezier(.6,0,.9,.5)' });
+    frames.push({ offset: 1, transform: t(W * 0.5, H * 0.5, 14, 1, 1) });
+    var total = 2600;
+    ball.animate(frames, { duration: total, fill: 'forwards' });
 
-<div class="sheet sheet--pass" data-pass-modal hidden>
-  <div class="sheet-card" role="dialog" aria-modal="true" aria-label="Save your guest pass">
-    <span class="sheet-handle" aria-hidden="true"></span>
-    <button class="sheet-x" type="button" data-close-modal aria-label="Close">×</button>
-    <div class="pass-img-wrap"><img alt="Your guest pass" data-pass-img><p class="pass-loading" data-pass-loading>Making your pass…</p></div>
-    <p class="pass-tip">Long-press the image to save it to your photos.</p>
-    <div class="pass-modal-actions">
-      <button class="btn btn--wine btn--sm" type="button" data-share-pass hidden>Share / Save</button>
-      <a class="btn btn--line btn--sm" data-download-pass download="guest-pass.png">Download</a>
-    </div>
-  </div>
-</div>
+    var sh = [{ offset: 0, transform: t(start.x, land[0].y + 30, 0.3, 1, 1), opacity: 0 }];
+    land.forEach(function (p, i) { sh.push({ offset: times[i], transform: t(p.x, p.y + 30 * p.s, p.s, 1, 1), opacity: 1 }); });
+    sh.push({ offset: 0.9, transform: t(W * 0.5, H * 0.8, 2, 1, 1), opacity: 0 });
+    sh.push({ offset: 1, transform: t(W * 0.5, H * 0.8, 2, 1, 1), opacity: 0 });
+    shadow.animate(sh, { duration: total, fill: 'forwards' });
 
-<noscript><div class="noscript">This invitation needs JavaScript to open. Please open the link in your phone’s browser.</div></noscript>
-<script src="config.js?v=049a8ec5"></script>
-<script src="event.js?v=049a8ec5"></script>
-<script src="art.js?v=049a8ec5"></script>
-<script src="static-api.js?v=049a8ec5"></script>
+    var words = ['pop', 'pop', 'pop!'], rots = [-10, 8, -6];
+    times.forEach(function (f, i) {
+      timers.push(setTimeout(function () { pop(land[i].x, land[i].y, words[i], rots[i]); }, f * total));
+    });
+    timers.push(setTimeout(function () {
+      flash.animate([{ clipPath: 'circle(0% at 50% 50%)' }, { clipPath: 'circle(150% at 50% 50%)' }], { duration: 420, easing: 'cubic-bezier(.3,0,.2,1)', fill: 'forwards' });
+      flash.querySelector('p').animate([{ opacity: 0, transform: 'scale(.6) rotate(-6deg)' }, { opacity: 1, transform: 'scale(1) rotate(-4deg)' }], { duration: 380, delay: 180, easing: 'cubic-bezier(.2,1.5,.4,1)', fill: 'forwards' });
+    }, total * 0.93));
+    timers.push(setTimeout(finish, total + 900));
+  }
+
+  // The tap that serves also starts the music (phones only allow sound after a tap).
+  function onServe() { if (finished) return; playMusic(); if (reduced) finish(); else serve(); }
+  intro.addEventListener('click', onServe);
+  intro.addEventListener('keydown', function (e) { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); onServe(); } });
+
+  // ---------------------------------------------------------------- the ball between the twins
+  var amp = document.getElementById('amp');
+  amp.addEventListener('click', function () { amp.classList.remove('bounce'); void amp.offsetWidth; amp.classList.add('bounce'); });
+
+  // ---------------------------------------------------------------- countdown to 10 AM Kampala (07:00 UTC), 21 Nov 2026
+  var START = Date.UTC(2026, 10, 21, 7, 0);
+  function pad(n) { return (n < 10 ? '0' : '') + n; }
+  function tick() {
+    var m = Math.max(0, Math.floor((START - Date.now()) / 60000));
+    document.querySelector('[data-d]').textContent = pad(Math.floor(m / 1440));
+    document.querySelector('[data-h]').textContent = pad(Math.floor(m % 1440 / 60));
+    document.querySelector('[data-m]').textContent = pad(m % 60);
+  }
+  tick(); setInterval(tick, 15000);
+
+  // ---------------------------------------------------------------- talking to the Google script
+  var API = (function () {
+    if (window.PADEL_PREVIEW) { // the layout preview: nothing leaves this phone
+      var n = 0, last = null;
+      return {
+        count: function () { return Promise.resolve(n); },
+        rsvp: function (b) {
+          return new Promise(function (res) {
+            setTimeout(function () {
+              var wasIn = last && last !== 'out', isIn = b.choice !== 'out';
+              n += (isIn ? 1 : 0) - (wasIn ? 1 : 0); last = b.choice;
+              res({ ok: true, name: b.name.trim(), choice: b.choice, count: n });
+            }, 500);
+          });
+        },
+      };
+    }
+    var CFG = window.INVITE_CONFIG || {};
+    var SCRIPT = String(CFG.scriptUrl || '');
+    var ready = /^https:\/\/script\.google(usercontent)?\.com\//.test(SCRIPT) || /^http:\/\/localhost[:/]/.test(SCRIPT);
+    function call(body, get) {
+      if (!ready) return Promise.reject(new Error('This invitation isn’t connected yet. Please let Asher or Asherbell know.'));
+      var url = get ? SCRIPT + (SCRIPT.indexOf('?') > -1 ? '&' : '?') + 'action=' + encodeURIComponent(body.action) : SCRIPT;
+      var opts = get ? { method: 'GET' } : { method: 'POST', headers: { 'Content-Type': 'text/plain;charset=utf-8' }, body: JSON.stringify(body) };
+      return fetch(url, opts).then(function (r) { return r.text(); }, function () {
+        throw new Error('Couldn’t reach the invitation. Check your connection and try again.');
+      }).then(function (text) {
+        var d;
+        try { d = JSON.parse(text); } catch (e) { throw new Error('The invitation didn’t answer properly. Please try again in a moment.'); }
+        if (d.status && d.status >= 400) throw new Error(d.error || 'Something went wrong. Please try again.');
+        return d;
+      });
+    }
+    return {
+      count: function () { return call({ action: 'count' }, true).then(function (d) { return d.count; }); },
+      rsvp: function (b) { return call({ action: 'rsvp', id: b.id, name: b.name, choice: b.choice }); },
+    };
+  })();
+
+  // ---------------------------------------------------------------- RSVP
+  function store(op, k, v) {
+    try {
+      if (op === 'get') return localStorage.getItem(k);
+      if (op === 'set') return localStorage.setItem(k, v);
+      return localStorage.removeItem(k);
+    } catch (e) { return null; }
+  }
+  function deviceId() {
+    var v = store('get', 'padel_id');
+    if (!/^[A-Za-z0-9_-]{16,64}$/.test(v || '')) {
+      var a = new Uint8Array(18);
+      (window.crypto || window.msCrypto).getRandomValues(a);
+      v = Array.prototype.map.call(a, function (x) { return ('0' + x.toString(16)).slice(-2); }).join('');
+      store('set', 'padel_id', v);
+    }
+    return v;
+  }
+  var mine = null;
+  try { mine = JSON.parse(store('get', 'padel_reply') || 'null'); } catch (e) { mine = null; }
+  if (mine && !(mine.name && /^(again|new|out)$/.test(mine.choice))) mine = null;
+  var friends = null; // how many guests are in, from the script (names are never shared)
+
+  var form = document.getElementById('form');
+  var err = document.getElementById('err');
+  var nameInput = document.getElementById('name');
+  var names = document.querySelector('[data-names]');
+  var buttons = form.querySelectorAll('button[type=submit]');
+
+  // The court list: the two of us, you (if you're in), and how many friends have said yes.
+  function renderList() {
+    Array.prototype.slice.call(names.querySelectorAll('li:not(.host)')).forEach(function (li) { li.remove(); });
+    var meIn = mine && mine.choice !== 'out';
+    if (meIn) {
+      var li = document.createElement('li');
+      li.className = 'me';
+      li.textContent = mine.name.split(/\s+/)[0];
+      var tag = document.createElement('small'); tag.textContent = 'you'; li.appendChild(tag);
+      names.appendChild(li);
+    }
+    var others = friends === null ? 0 : Math.max(0, friends - (meIn ? 1 : 0));
+    if (others > 0) {
+      var more = document.createElement('li');
+      more.className = 'more';
+      more.textContent = '+ ' + others + (others === 1 ? ' friend' : ' friends');
+      names.appendChild(more);
+    }
+    var total = 2 + (meIn ? 1 : 0) + others;
+    document.querySelector('[data-count]').textContent = total + ' players so far';
+  }
+  function showResult() {
+    form.hidden = true;
+    var yes = mine.choice !== 'out';
+    if (yes) {
+      document.querySelector('[data-guest]').textContent = mine.name;
+      document.querySelector('[data-pass-title]').textContent = mine.choice === 'again' ? 'You’re in, twice' : 'You’re on the list';
+    }
+    document.getElementById('yes').classList.toggle('show', yes);
+    document.getElementById('no').classList.toggle('show', !yes);
+  }
+  function busy(on, btn) {
+    Array.prototype.forEach.call(buttons, function (b) { b.disabled = on; });
+    if (btn) {
+      if (on) { btn.dataset.label = btn.innerHTML; btn.textContent = 'Saving…'; }
+      else if (btn.dataset.label) btn.innerHTML = btn.dataset.label;
+    }
+  }
+
+  form.addEventListener('submit', function (e) {
+    e.preventDefault();
+    var btn = e.submitter || buttons[0];
+    var choice = btn.value || 'again';
+    var name = nameInput.value.trim();
+    if (!name) { err.textContent = 'Add your name first, then pick one.'; err.hidden = false; nameInput.focus(); return; }
+    err.hidden = true;
+    busy(true, btn);
+    API.rsvp({ id: deviceId(), name: name, choice: choice }).then(function (d) {
+      mine = { name: d.name || name, choice: d.choice || choice };
+      store('set', 'padel_reply', JSON.stringify(mine));
+      if (typeof d.count === 'number') friends = d.count;
+      busy(false, btn);
+      renderList();
+      showResult();
+    }).catch(function (x) {
+      busy(false, btn);
+      err.textContent = x.message;
+      err.hidden = false;
+    });
+  });
+  Array.prototype.forEach.call(document.querySelectorAll('[data-again]'), function (b) {
+    b.addEventListener('click', function () {
+      document.getElementById('yes').classList.remove('show');
+      document.getElementById('no').classList.remove('show');
+      if (mine) nameInput.value = mine.name;
+      form.hidden = false;
+      nameInput.focus();
+    });
+  });
+
+  renderList();
+  if (mine) showResult();
+  API.count().then(function (n) { friends = n; renderList(); }, function () { /* the list just shows the two of us */ });
+})();
+</script>
 </body>
 </html>
